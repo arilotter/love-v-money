@@ -5,6 +5,10 @@ import "./Graph.css";
 import createRafLoop from "raf-loop";
 
 export default class Graph extends Component {
+  cursorAlpha = 0;
+  state = {
+    mouseIn: false
+  };
   onClick = e => {
     if (!this.props.pickPosition) {
       const money = this.x / this.w;
@@ -32,10 +36,17 @@ export default class Graph extends Component {
   };
 
   onPaint = delta_time => {
+    if (this.props.pickPosition) {
+      this.cursorAlpha = 1;
+    } else if (this.state.mouseIn && this.cursorAlpha < 1) {
+      this.cursorAlpha += delta_time / 200;
+    } else if (!this.state.mouseIn && this.cursorAlpha > 0) {
+      this.cursorAlpha -= delta_time / 200;
+    }
     const ctx = this.ctx;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     drawGrid(ctx, this.w);
-    ctx.strokeStyle = "#fa3a38";
+    ctx.strokeStyle = `rgba(250,58,56, ${this.cursorAlpha})`;
     if (!this.props.pickPosition) {
       drawRing(ctx, this.x, this.y, 14);
     } else {
@@ -68,23 +79,25 @@ export default class Graph extends Component {
   render() {
     return (
       <React.Fragment>
-      <div className="GraphPositioningContainer">
-        <div className="GraphContainer">
-          <Icons icon="heart" className="GraphYLabel" />
-          <div className="Graph">
-            <ReactResizeDetector handleWidth onResize={this.onResize} />
-            <canvas
-              className="GraphCanvas"
-              ref={canvas => {
-                this.canvas = canvas;
-              }}
-              onMouseMove={this.onMouseMove}
-              onClick={this.onClick}
-            />
+        <div className="GraphPositioningContainer">
+          <div className="GraphContainer">
+            <Icons icon="heart" className="GraphYLabel" />
+            <div className="Graph">
+              <ReactResizeDetector handleWidth onResize={this.onResize} />
+              <canvas
+                className="GraphCanvas"
+                ref={canvas => {
+                  this.canvas = canvas;
+                }}
+                onMouseMove={this.onMouseMove}
+                onClick={this.onClick}
+                onMouseEnter={() => this.setState({ mouseIn: true })}
+                onMouseLeave={() => this.setState({ mouseIn: false })}
+              />
+            </div>
+            <Icons icon="money" className="GraphXLabel" />
           </div>
-          <Icons icon="money" className="GraphXLabel" />
         </div>
-      </div>
       </React.Fragment>
     );
   }
