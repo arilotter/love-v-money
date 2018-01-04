@@ -2,12 +2,18 @@ import React from "react";
 import heart from "./Heart.svg";
 import questionMark from "./QuestionMark.svg";
 import money from "./Money.svg";
+import diamond from "./Diamond.svg";
+import cross from "./Cross.svg";
+import circle from "./Circle.svg";
 import "./Icons.css";
 
 const icons = {
   heart,
   questionMark,
-  money
+  money,
+  diamond,
+  cross,
+  circle
 };
 
 export default function Icons(props) {

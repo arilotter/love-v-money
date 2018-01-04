@@ -67,6 +67,7 @@ export default class Graph extends Component {
 
   render() {
     return (
+      <React.Fragment>
       <div className="GraphPositioningContainer">
         <div className="GraphContainer">
           <Icons icon="heart" className="GraphYLabel" />
@@ -84,6 +85,7 @@ export default class Graph extends Component {
           <Icons icon="money" className="GraphXLabel" />
         </div>
       </div>
+      </React.Fragment>
     );
   }
 }

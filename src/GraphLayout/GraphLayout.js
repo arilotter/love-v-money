@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Icons from "../Icons";
 import Button from "../Button";
 import Graph from "./Graph";
+import ShareOverlay from "../ShareOverlay";
 import "./GraphLayout.css";
 
 function Blurb(props) {
@@ -66,6 +67,8 @@ export default class GraphLayou extends Component {
       );
     }
     return (
+      <React.Fragment>
+        {/* <ShareOverlay open /> */}
       <div className="GraphLayoutContainer">
         <div className="GraphLayoutLeftColumn">
           <div className="GraphLayoutTitle">
@@ -94,6 +97,7 @@ export default class GraphLayou extends Component {
           />
         </div>
       </div>
+      </React.Fragment>
     );
   }
 }

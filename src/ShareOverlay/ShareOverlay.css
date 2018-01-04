@@ -1,0 +1,45 @@
+.ShareOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  z-index: 10;
+}
+.ShareOverlayTextArea {
+  border: none;
+  color: #3c3c3c;
+  font: 60px "Miller";
+  text-align: center;
+  resize: none;
+  min-height: 306px;
+  width: 800px;
+}
+.ShareOverlayTextArea::placeholder {
+  color: rgba(60, 60, 60, 0.5);
+}
+.ShareOverlayCloseButton {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  border: 2px solid #fa3a38;
+  z-index: 11;
+  line-height: 60px;
+  text-align: center;
+  color: #fa3a38;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.ShareOverlayCloseButton::after {
+  content: "✕";
+  font-size: 24px;
+  transform: translateY(6px);
+  display: inline-block;
+}
+.ShareOverlayCloseButton:hover {
+  color: white;
+  background: #fa3a38;
+}
