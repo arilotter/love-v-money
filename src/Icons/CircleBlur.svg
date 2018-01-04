@@ -1,0 +1,8 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="a" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.6" in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <circle stroke="#929292" filter="url(#a)" stroke-width="5" fill="none" r="13" cy="32" cx="32"/>
+</svg>

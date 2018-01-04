@@ -1,0 +1,85 @@
+.GraphLayoutContainer {
+  display: flex;
+}
+.GraphLayoutLeftColumn {
+  width: 46%;
+  height: calc(100vh - 80px);
+  padding: 80px;
+  padding-bottom: 0;
+  box-shadow: -3px 0px 33.6px 1.4px rgba(209, 209, 212, 0.39);
+  position: relative;
+  max-width: 500px;
+}
+.GraphLayoutRightColumn {
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+.GraphLayoutTitle {
+  text-transform: uppercase;
+  font-size: 101.42px;
+  line-height: 101.42px;
+  border-bottom: 2px dotted #dddddd;
+  margin: 0;
+  display: inline-block;
+}
+.GraphLayoutTitleIcons {
+  display: inline-block;
+}
+.GraphLayoutTitleIcons .Icon {
+  height: 64px;
+  padding: 0 12px;
+}
+
+.GraphLayoutBlurb {
+  padding-top: 40px;
+  font: 28px "Miller";
+  line-height: 38px;
+  color: #626262;
+  max-width: 400px;
+}
+.GraphLayoutButton {
+  margin-top: 64px;
+}
+
+.GraphCard {
+  position: relative;
+  border: 2px solid #fa3a38;
+  box-sizing: border-box;
+  width: 90%;
+  margin-top: 32px;
+  padding: 32px;
+  background: white;
+}
+
+.GraphCard::before {
+  content: "";
+  background: #fa3a38;
+  position: absolute;
+  right: -16px;
+  top: 8px;
+  bottom: -16px;
+  left: 8px;
+  z-index: -1;
+}
+
+.GraphCardInfo {
+  text-transform: uppercase;
+  color: #3c3c3c;
+}
+
+.GraphCardYears {
+  text-transform: uppercase;
+  color: #fa3a38;
+  font-size: 32px;
+  line-height: 32px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.GraphCardWhy {
+  font: 18px "Miller";
+  color: #3c3c3c;
+  line-height: 24px;
+}

@@ -1,0 +1,32 @@
+.FakeButton {
+  visibility: hidden;
+}
+
+.Button {
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #fa3a38;
+  border: 2px solid #fa3a38;
+  width: 207px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  background: white;
+  transition: background 0.15s ease-out, color 0.15s ease-out;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.Button:hover {
+  background: #fa3a38;
+  color: white;
+}
+.DisabledButton {
+  border-color: #9d9d9d;
+  color: #9d9d9d;
+  cursor: inherit;
+}
+.DisabledButton:hover {
+  background: inherit;
+  color: #9d9d9d;
+}

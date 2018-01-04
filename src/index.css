@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Franklin Gothic";
+  src: url("fonts/ITCFranklinGothicStd-DmCd.woff2") format("woff2"),
+    url("fonts/ITCFranklinGothicStd-DmCd.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Miller";
+  src: url("fonts/Miller-TextItalic.woff2") format("woff2"),
+    url("fonts/Miller-TextItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Miller";
+  src: url("fonts/Miller-Text.woff2") format("woff2"),
+    url("fonts/Miller-Text.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Franklin Gothic";
+}
