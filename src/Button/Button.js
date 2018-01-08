@@ -9,6 +9,7 @@ export default function Button(props) {
         FakeButton: props.fake,
         DisabledButton: props.disabled
       })}
+      onClick={props.disabled ? null : props.onClick}
     >
       {props.text}
     </div>

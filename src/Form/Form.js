@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { gs } from "../react-global-state";
 import TripleLayout from "../TripleLayout";
 import NaturalInput from "./NaturalInput";
 import "./Form.css";
@@ -15,7 +16,7 @@ function isNumber(input) {
   return String(num) === input && num >= 0 && num < MAX_AGE;
 }
 
-export default class Form extends Component {
+class Form extends Component {
   constructor() {
     super();
     this.state = {
@@ -28,6 +29,17 @@ export default class Form extends Component {
       }
     };
   }
+
+  onEnterPressed = () => {
+    if (this.state.formFull) {
+      this.submit();
+    }
+  };
+
+  submit = () => {
+    this.props.setState({ ...this.state.data });
+    this.props.history.push("/graph");
+  };
 
   updateForm = key => (text, valid) => {
     const data = {
@@ -48,6 +60,7 @@ export default class Form extends Component {
         default="age"
         isValidInput={isNumber}
         onChange={this.updateForm("age")}
+        onEnterPressed={this.onEnterPressed}
       />
     );
     const gender = (
@@ -57,6 +70,7 @@ export default class Form extends Component {
         default="gender"
         isValidInput={isNotEmpty}
         onChange={this.updateForm("gender")}
+        onEnterPressed={this.onEnterPressed}
       />
     );
     const occupation = (
@@ -66,6 +80,7 @@ export default class Form extends Component {
         default="occupation"
         isValidInput={isNotEmpty}
         onChange={this.updateForm("occupation")}
+        onEnterPressed={this.onEnterPressed}
       />
     );
     const years = (
@@ -75,6 +90,7 @@ export default class Form extends Component {
         default="#"
         isValidInput={isNumber}
         onChange={this.updateForm("years")}
+        onEnterPressed={this.onEnterPressed}
       />
     );
     return (
@@ -82,8 +98,9 @@ export default class Form extends Component {
         <TripleLayout
           fancy
           icons={["heart", "money", "questionMark"]}
-          buttonText={"plot me"}
+          buttonText={"plot myself"}
           buttonDisabled={!this.state.formFull}
+          onButtonClick={this.submit}
         >
           I am a {age} y/o {gender}
           <br />
@@ -93,3 +110,5 @@ export default class Form extends Component {
     );
   }
 }
+
+export default gs(Form);

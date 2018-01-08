@@ -1,10 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
-import SmoothScroll from "really-smooth-scroll";
 import registerServiceWorker from "./registerServiceWorker";
-SmoothScroll.shim();
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <BrowserRouter basename="/love/">
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);
+
 registerServiceWorker();

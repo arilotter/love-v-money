@@ -3,14 +3,17 @@ import TripleLayout from "../TripleLayout";
 import Highlight from "../Highlight";
 import Particles from "../Particles";
 import MiniCard from "../MiniCard";
-import Icons from "../Icons";
 import "./Introduction.css";
 
-export default function Introduction() {
+export default function Introduction({ history }) {
   return (
     <React.Fragment>
       <Particles />
-      <MiniCard age={24} gender="male" occupation="garbage collector"/>
+      <MiniCard age={24} gender="male" occupation="web developer" style={{
+        position: "absolute",
+        left: "40px",
+        top: "180px"
+      }}/>
       <div className="Introduction">
         <TripleLayout icons={["heart"]} className="IntroductionSection">
           some people<br />pursue a <Highlight>passion</Highlight>
@@ -30,7 +33,7 @@ export default function Introduction() {
           className="IntroductionSection"
           icons={["heart", "money", "questionMark"]}
           buttonText="Start"
-          onButtonClick={() => console.log("TODO go to next state")}
+          onButtonClick={() => history.push("/form")}
         >
           <Highlight>plot</Highlight> where you<br />find yourself
         </TripleLayout>

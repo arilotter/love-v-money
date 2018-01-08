@@ -27,3 +27,12 @@ body {
   padding: 0;
   font-family: "Franklin Gothic";
 }
+
+.switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+  width: 100%;
+}

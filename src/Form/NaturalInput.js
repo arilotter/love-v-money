@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ContentEditable from "react-simple-contenteditable";
 import textWidth from "text-width";
 import classNames from "classnames";
-import "./NaturalInput.css"
+import "./NaturalInput.css";
 
 export default class NaturalInput extends Component {
   state = {
@@ -21,8 +21,19 @@ export default class NaturalInput extends Component {
     });
     const minWidth = this.state.text === "" ? defaultWidth : 0;
     return (
-      <span className="NaturalInputContainer" style={{ minWidth: minWidth + "px" }}>
+      <span
+        className="NaturalInputContainer"
+        style={{ minWidth: minWidth + "px" }}
+      >
         <ContentEditable
+          onKeyDown={event => {
+            if ((event.keyCode || event.charCode) === 13) {
+              if (this.props.onEnterPressed) this.props.onEnterPressed();
+              event.preventDefault();
+              event.stopPropagation();
+              return false;
+            }
+          }}
           className={classNames(this.props.className, {
             FormInputInvalid: this.state.valid
           })}

@@ -5,6 +5,8 @@ import money from "./Money.svg";
 import diamond from "./Diamond.svg";
 import cross from "./Cross.svg";
 import circle from "./Circle.svg";
+import twitter from "./Twitter.svg";
+import facebook from "./Facebook.svg";
 import "./Icons.css";
 
 const icons = {
@@ -13,7 +15,9 @@ const icons = {
   money,
   diamond,
   cross,
-  circle
+  circle,
+  twitter,
+  facebook
 };
 
 export default function Icons(props) {

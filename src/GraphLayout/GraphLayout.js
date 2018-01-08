@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { gs } from "../react-global-state";
 import Icons from "../Icons";
 import Button from "../Button";
 import Graph from "./Graph";
 import ShareOverlay from "../ShareOverlay";
+import AboutOverlay from "../AboutOverlay";
 import "./GraphLayout.css";
 
 function Blurb(props) {
@@ -34,70 +36,94 @@ const DUMMY_DATA = new Array(20).fill(0).map(_ => {
   };
 });
 
-export default class GraphLayou extends Component {
+class GraphLayout extends Component {
   state = {
-    // selectedPerson: {
-    //   gender: "male",
-    //   age: 28,
-    //   occupation: "piano teacher",
-    //   years: 5005,
-    //   why: "I used to work at a bank, but always loved playing the piano. I decided to teach what I love to those who want to learn."
-    // }
-  };
-  onPick = (money, love) => {
-    this.setState({ userPicked: true, pickPosition: [money, love] });
-    // TODO send data + id to backend!
+    elaborating: false,
+    about: false
   };
   render() {
     // states: picking, telluswhy, card
     let leftColumnContents;
-    if (!this.state.pickPosition) {
+    if (!this.props.state.pickPosition) {
       leftColumnContents = (
         <Blurb>
           Plot where you find yourself or lorem ipsum hover to explore other
           people’s choices.
         </Blurb>
       );
-    } else if (!this.state.elaboration) {
+    } else if (!this.props.state.why) {
       leftColumnContents = (
         <div>
           <Blurb>Lorem ipsum about explaining why you did/chose it.</Blurb>
-          <Button className="GraphLayoutButton" text="Tell us why" />
+          <Button
+            className="GraphLayoutButton"
+            text="Tell us why"
+            onClick={() => {
+              this.setState({ elaborating: true });
+            }}
+          />
         </div>
       );
     }
+    const about = this.state.about ? (
+      <AboutOverlay onClosed={() => this.setState({ about: false })} />
+    ) : null;
     return (
       <React.Fragment>
-        {/* <ShareOverlay open /> */}
-      <div className="GraphLayoutContainer">
-        <div className="GraphLayoutLeftColumn">
-          <div className="GraphLayoutTitle">
-            I work<br />for{" "}
-            <Icons
-              className="GraphLayoutTitleIcons"
-              icons={["heart", "money", "questionMark"]}
+        {about}
+        <ShareOverlay
+          open={this.state.elaborating}
+          onClose={() => this.setState({ elaborating: false })}
+          onDone={why => {
+            this.props.setState({ why });
+            this.setState({ elaborating: false });
+          }}
+        />
+        <div className="GraphLayoutContainer">
+          <div className="GraphLayoutLeftColumn">
+            <div className="GraphLayoutTitle">
+              I work<br />for{" "}
+              <Icons
+                className="GraphLayoutTitleIcons"
+                icons={["heart", "money", "questionMark"]}
+              />
+            </div>
+            {leftColumnContents}
+            {this.state.selectedPerson && (
+              <Card
+                gender={this.props.selectedPerson.gender}
+                age={this.props.selectedPerson.age}
+                occupation={this.props.selectedPerson.occupation}
+                years={this.props.selectedPerson.years}
+                why={this.props.selectedPerson.why}
+              />
+            )}
+            <div className="GraphLayoutAbout">
+              <span
+                className="GraphLayoutAboutLink"
+                onClick={() => this.setState({ about: true })}
+              >
+                About this project
+              </span>
+              <Icons icon="twitter" className="GraphLayoutAboutIcon" />
+              <Icons icon="facebook" className="GraphLayoutAboutIcon" />
+            </div>
+          </div>
+          <div className="GraphLayoutRightColumn">
+            <Graph
+              onPick={(money, love) =>
+                this.props.setState({
+                  pickPosition: [money, love]
+                })
+              }
+              pickPosition={this.props.state.pickPosition}
+              people={DUMMY_DATA}
             />
           </div>
-          {leftColumnContents}
-          {this.state.selectedPerson && (
-            <Card
-              gender={this.state.selectedPerson.gender}
-              age={this.state.selectedPerson.age}
-              occupation={this.state.selectedPerson.occupation}
-              years={this.state.selectedPerson.years}
-              why={this.state.selectedPerson.why}
-            />
-          )}
         </div>
-        <div className="GraphLayoutRightColumn">
-          <Graph
-            onPick={this.onPick}
-            pickPosition={this.state.pickPosition}
-            people={DUMMY_DATA}
-          />
-        </div>
-      </div>
       </React.Fragment>
     );
   }
 }
+
+export default gs(GraphLayout);

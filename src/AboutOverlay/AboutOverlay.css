@@ -1,11 +1,14 @@
-.ShareOverlay {
-  position: absolute;
+.AboutOverlayContainer {
+  position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
   background: white;
   z-index: 10;
+  color: #3c3c3c;
+  font-family: "Miller";  
+  overflow-y: scroll;
   animation: fadein 0.5s;
 }
 
@@ -17,20 +20,7 @@
     opacity: 1;
   }
 }
-.ShareOverlayTextArea {
-  border: none;
-  color: #3c3c3c;
-  font: 60px "Miller";
-  text-align: center;
-  resize: none;
-  min-height: 350px;
-  line-height: 80px;
-  width: 800px;
-}
-.ShareOverlayTextArea::placeholder {
-  color: rgba(60, 60, 60, 0.5);
-}
-.ShareOverlayCloseButton {
+.AboutOverlayCloseButton {
   position: absolute;
   top: 40px;
   right: 40px;
@@ -44,13 +34,34 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
-.ShareOverlayCloseButton::after {
+.AboutOverlayCloseButton::after {
   content: "✕";
   font-size: 24px;
-  transform: translateY(6px);
   display: inline-block;
 }
-.ShareOverlayCloseButton:hover {
+.AboutOverlayCloseButton:hover {
   color: white;
   background: #fa3a38;
+}
+
+.AboutOverlayBigLeft {
+  font-size: 60px;
+  line-height: 80px;
+  max-width: 980px;
+  padding: 80px;
+  padding-left: 212px;
+}
+.AboutOverlaySmallRight {
+  font-size: 28px;
+  line-height: 44px;
+  padding-left: 38vw;
+  max-width: 670px;
+}
+
+.AboutOverlayFooterSpacer { 
+  display: block;
+  height: 130px;
+}
+a {
+  color: #fa3a38;
 }

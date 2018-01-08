@@ -12,18 +12,28 @@ export default class ShareOverlay extends Component {
   render() {
     return this.props.open ? (
       <React.Fragment>
-        <div className="ShareOverlayCloseButton" onClick={this.props.onClosed}/>
+        <div
+          className="ShareOverlayCloseButton"
+          onClick={this.props.onClose}
+        />
         <TripleLayout
           className="ShareOverlay"
           icons={["heart", "money", "questionMark"]}
           buttonText="share"
-          onButtonClick={() => console.log("TODO Share the contents;")}
+          onButtonClick={() => {
+            this.props.onDone(this.state.text);
+          }}
+          buttonDisabled={this.state.text.length === 0}
         >
           <textarea
             className="ShareOverlayTextArea"
             value={this.state.text}
             onChange={this.handleChange}
-            placeholder="Share with us in&#x0a;140 characters or less:&#x0a;Why passion or money?&#x0a;(start typing...)"
+            maxLength={140}
+            style={{
+              height: this.state.text.split("\n").length * 80 + "px"
+            }}
+            placeholder="Tell us why you&#x0a;do what you do..."
           />
         </TripleLayout>
       </React.Fragment>

@@ -3,6 +3,8 @@
   color: #fa3a38;
   font: 22px "Franklin Gothic";
   line-height: 18px;
+  display: inline-block;
+  width: 256px;
 }
 .MiniCardInfo {
   font: 18px "Miller";
