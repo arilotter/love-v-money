@@ -5,6 +5,7 @@ import IconCircle from "./Icons/Circle.svg";
 import IconCrossBlur from "./Icons/CrossBlur.svg";
 import IconDiamondBlur from "./Icons/DiamondBlur.svg";
 import IconCircleBlur from "./Icons/CircleBlur.svg";
+import MiniCard from "./MiniCard";
 
 export default class Particles extends Component {
   state = {
@@ -55,7 +56,11 @@ export default class Particles extends Component {
           icon
         };
       });
-      this.setState({ particles });
+      this.setState({
+        particles,
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
     }
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
@@ -76,6 +81,26 @@ export default class Particles extends Component {
   }
 
   render() {
+    const cards = this.props.people
+      ? this.props.people.map(p => {
+          const [x, y] = p.pickPosition;
+          const fixedX =
+            (x > 0.5 ? 2 / 3 + 2 / 3 * (x - 0.5) : x * (2 / 3)) *
+            this.state.width;
+          return (
+            <MiniCard
+              age={p.age}
+              gender={p.gender}
+              occupation={p.occupation}
+              style={{
+                position: "absolute",
+                left: fixedX + "px",
+                top: y * this.state.height + "px"
+              }}
+            />
+          );
+        })
+      : [];
     return (
       <div>
         <img
@@ -120,6 +145,7 @@ export default class Particles extends Component {
           style={{ display: "none" }}
           onLoad={this.imageLoaded}
         />
+        {cards}
         <canvas
           ref={canvas => (this.canvas = canvas)}
           style={{

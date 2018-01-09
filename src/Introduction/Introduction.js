@@ -1,26 +1,21 @@
 import React from "react";
+import { gs } from "../react-global-state";
 import TripleLayout from "../TripleLayout";
 import Highlight from "../Highlight";
 import Particles from "../Particles";
-import MiniCard from "../MiniCard";
 import "./Introduction.css";
 
-export default function Introduction({ history }) {
+function Introduction({ history, state }) {
   return (
     <React.Fragment>
-      <Particles />
-      <MiniCard age={24} gender="male" occupation="web developer" style={{
-        position: "absolute",
-        left: "40px",
-        top: "180px"
-      }}/>
+      <Particles people={state.people}/>
       <div className="Introduction">
         <TripleLayout icons={["heart"]} className="IntroductionSection">
           some people<br />pursue a <Highlight>passion</Highlight>
         </TripleLayout>
         <TripleLayout icons={["money"]} className="IntroductionSection">
           others are<br />motivated by<br />
-          <Highlight>money</Highlight>
+          the <Highlight>money</Highlight>
         </TripleLayout>
         <TripleLayout
           icons={["heart", "money"]}
@@ -41,3 +36,4 @@ export default function Introduction({ history }) {
     </React.Fragment>
   );
 }
+export default gs(Introduction);

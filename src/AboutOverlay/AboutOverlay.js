@@ -15,8 +15,8 @@ export default function AboutOverlay(props) {
       <div className="AboutOverlaySmallRight">
         It was originally produced in a physical environment using post-it notes
         in summer 2017. This site was created with the generous support of:<br />
-        <Highlight>Serene Wong</Highlight> / Design Role<br />
-        <Highlight>Ari Lotter</Highlight> / Developer<br />
+        <Highlight>Serene Wong</Highlight> / Design<br />
+        <Highlight>Ari Lotter</Highlight> / Technology <br />
         <Highlight>Mike Dobell</Highlight> / Production<br />
         <Highlight>Sean Hazell</Highlight> / Creator<br />
         (Some Friends from <Highlight>Jam3</Highlight>)

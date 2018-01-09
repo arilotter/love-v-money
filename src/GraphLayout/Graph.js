@@ -1,19 +1,27 @@
 import React, { Component } from "react";
 import ReactResizeDetector from "react-resize-detector";
 import Icons from "../Icons";
+import Card from "./Card";
 import "./Graph.css";
 import createRafLoop from "raf-loop";
+import classNames from "classnames";
+import hexToRgba from "hex-to-rgba";
+
+const CIRCLE_SIZE = 10;
 
 export default class Graph extends Component {
   cursorAlpha = 0;
   state = {
-    mouseIn: false
+    mouseIn: false,
+    hover: false
   };
   onClick = e => {
     if (!this.props.pickPosition) {
       const money = this.x / this.w;
       const love = 1 - this.y / this.w;
       this.props.onPick(money, love);
+    } else if (this.state.hover) {
+      this.props.setHighlighted(this.state.hover);
     }
   };
 
@@ -46,23 +54,49 @@ export default class Graph extends Component {
     const ctx = this.ctx;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     drawGrid(ctx, this.w);
+
+    ctx.strokeStyle = "#3c3c3c";
+    if (this.props.people) {
+      this.props.people.forEach(({ pickPosition, gender }) => {
+        const [x, y] = pickPosition;
+        const blur =
+          (this.state.hover &&
+            this.state.hover.pickPosition[0] === x &&
+            this.state.hover.pickPosition[1] === y) ||
+          (this.props.highlighted &&
+            this.props.highlighted.pickPosition[0] === x &&
+            this.props.highlighted.pickPosition[1] === y);
+        getRenderFunction(gender, blur)(
+          ctx,
+          x * this.w,
+          (1 - y) * this.w,
+          CIRCLE_SIZE
+        );
+      });
+    }
     ctx.strokeStyle = `rgba(250,58,56, ${this.cursorAlpha})`;
+    const renderCursor = getRenderFunction(this.props.gender);
     if (!this.props.pickPosition) {
-      drawRing(ctx, this.x, this.y, 14);
+      renderCursor(ctx, this.x, this.y, 14);
     } else {
       const [x, y] = this.props.pickPosition;
-      drawRing(ctx, x * this.w, (1 - y) * this.w, 10);
+      renderCursor(ctx, x * this.w, (1 - y) * this.w, CIRCLE_SIZE);
+
+      const closest = (this.props.people || [])
+        .map(person => {
+          const [x, y] = person.pickPosition;
+          const dx = x - this.x / this.w;
+          const dy = y - (1 - this.y / this.w);
+          return { person, dist: dx * dx + dy * dy };
+        })
+        .sort((a, b) => (a.dist = b.dist))
+        .shift();
+      if (closest && closest.dist * this.w < CIRCLE_SIZE / 6) {
+        this.setState({ hover: closest.person });
+      } else {
+        this.setState({ hover: false });
+      }
     }
-    ctx.strokeStyle = "#3c3c3c";
-    this.props.people.forEach(({ coords, type }) => {
-      const [x, y] = coords;
-      const renderFn = {
-        ring: drawRing,
-        diamond: drawDiamond,
-        cross: drawCross
-      }[type];
-      renderFn(ctx, x * this.w, (1 - y) * this.w, 10);
-    });
   };
 
   componentDidMount() {
@@ -82,7 +116,11 @@ export default class Graph extends Component {
         <div className="GraphPositioningContainer">
           <div className="GraphContainer">
             <Icons icon="heart" className="GraphYLabel" />
-            <div className="Graph">
+            <div
+              className={classNames("Graph", {
+                GraphHover: this.state.hover
+              })}
+            >
               <ReactResizeDetector handleWidth onResize={this.onResize} />
               <canvas
                 className="GraphCanvas"
@@ -94,6 +132,22 @@ export default class Graph extends Component {
                 onMouseEnter={() => this.setState({ mouseIn: true })}
                 onMouseLeave={() => this.setState({ mouseIn: false })}
               />
+              {this.state.hover && (
+                <Card
+                  gender={this.state.hover.gender}
+                  age={this.state.hover.age}
+                  occupation={this.state.hover.occupation}
+                  small
+                  style={{
+                    position: "absolute",
+                    left: this.state.hover.pickPosition[0] * this.w + "px",
+                    top:
+                      (1 - this.state.hover.pickPosition[1]) * this.w -
+                      70 +
+                      "px"
+                  }}
+                />
+              )}
             </div>
             <Icons icon="money" className="GraphXLabel" />
           </div>
@@ -155,4 +209,25 @@ function drawGrid(ctx, w) {
   ctx.lineTo(w, 2 * t);
   ctx.stroke();
   ctx.setLineDash([]);
+}
+
+function getRenderFunction(gender, blur) {
+  if (blur) {
+    const unblurredFunction = getRenderFunction(gender);
+    return (ctx, x, y, width) => {
+      const origStrokeStyle = ctx.strokeStyle;
+      for (let i = 0; i < 5; i++) {
+        ctx.strokeStyle = hexToRgba(origStrokeStyle, i / 5);
+        unblurredFunction(ctx, x, y, width + i);
+      }
+      ctx.strokeStyle = origStrokeStyle;
+    };
+  }
+  if (gender === "female") {
+    return drawRing;
+  } else if (gender === "male") {
+    return drawDiamond;
+  } else {
+    return drawCross;
+  }
 }

@@ -1,48 +1,29 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import { gs } from "../react-global-state";
 import Icons from "../Icons";
 import Button from "../Button";
 import Graph from "./Graph";
+import Card from "./Card";
 import ShareOverlay from "../ShareOverlay";
 import AboutOverlay from "../AboutOverlay";
 import "./GraphLayout.css";
+
+const SOCIAL_TEXT =
+  "Some people work for love. Others for money. Find out where you fit. http://lovevmoney.com";
 
 function Blurb(props) {
   return <div className="GraphLayoutBlurb">{props.children}</div>;
 }
 
-function Card(props) {
-  return (
-    <div className="GraphCard">
-      <div className="GraphCardInfo">
-        {props.gender}, {props.age} Y/O
-      </div>
-      <div className="GraphCardYears">
-        I've been a {props.occupation} for {props.years} years
-      </div>
-      <div className="GraphCardWhy">{props.why}</div>
-    </div>
-  );
-}
-
-const DUMMY_DATA = new Array(20).fill(0).map(_ => {
-  let type;
-  if (Math.random() > 0.5) type = "diamond";
-  else if (Math.random() > 0.5) type = "ring";
-  else type = "cross";
-  return {
-    coords: [Math.random(), Math.random()],
-    type
-  };
-});
 
 class GraphLayout extends Component {
   state = {
     elaborating: false,
-    about: false
+    about: false,
+    selectedPerson: false
   };
   render() {
-    // states: picking, telluswhy, card
     let leftColumnContents;
     if (!this.props.state.pickPosition) {
       leftColumnContents = (
@@ -91,11 +72,11 @@ class GraphLayout extends Component {
             {leftColumnContents}
             {this.state.selectedPerson && (
               <Card
-                gender={this.props.selectedPerson.gender}
-                age={this.props.selectedPerson.age}
-                occupation={this.props.selectedPerson.occupation}
-                years={this.props.selectedPerson.years}
-                why={this.props.selectedPerson.why}
+                gender={this.state.selectedPerson.gender}
+                age={this.state.selectedPerson.age}
+                occupation={this.state.selectedPerson.occupation}
+                years={this.state.selectedPerson.years}
+                why={this.state.selectedPerson.why}
               />
             )}
             <div className="GraphLayoutAbout">
@@ -105,7 +86,16 @@ class GraphLayout extends Component {
               >
                 About this project
               </span>
-              <Icons icon="twitter" className="GraphLayoutAboutIcon" />
+              <a
+                href={
+                  "https://twitter.com/intent/tweet?text=" +
+                  encodeURIComponent(SOCIAL_TEXT)
+                }
+                target="_blank"
+                rel="noopener"
+              >
+                <Icons icon="twitter" className="GraphLayoutAboutIcon" />
+              </a>
               <Icons icon="facebook" className="GraphLayoutAboutIcon" />
             </div>
           </div>
@@ -117,7 +107,12 @@ class GraphLayout extends Component {
                 })
               }
               pickPosition={this.props.state.pickPosition}
-              people={DUMMY_DATA}
+              people={this.props.state.people}
+              gender={this.props.state.gender}
+              setHighlighted={selectedPerson => {
+                this.setState({ selectedPerson });
+              }}
+              highlighted={this.state.selectedPerson}
             />
           </div>
         </div>

@@ -43,47 +43,6 @@
   margin-top: 64px;
 }
 
-.GraphCard {
-  position: relative;
-  border: 2px solid #fa3a38;
-  box-sizing: border-box;
-  width: 90%;
-  margin-top: 32px;
-  padding: 32px;
-  background: white;
-}
-
-.GraphCard::before {
-  content: "";
-  background: #fa3a38;
-  position: absolute;
-  right: -16px;
-  top: 8px;
-  bottom: -16px;
-  left: 8px;
-  z-index: -1;
-}
-
-.GraphCardInfo {
-  text-transform: uppercase;
-  color: #3c3c3c;
-}
-
-.GraphCardYears {
-  text-transform: uppercase;
-  color: #fa3a38;
-  font-size: 32px;
-  line-height: 32px;
-  padding-top: 20px;
-  padding-bottom: 30px;
-}
-
-.GraphCardWhy {
-  font: 18px "Miller";
-  color: #3c3c3c;
-  line-height: 24px;
-}
-
 .GraphLayoutAbout {
   text-transform: uppercase;
   font-size: 14px;
@@ -106,4 +65,7 @@
 }
 .GraphLayoutAboutIcon img {
   padding: 0 4px;
+}
+.Cap {
+  text-transform: capitalize;
 }

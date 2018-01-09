@@ -15,7 +15,7 @@ function generateGUID() {
 }
 
 function getGUID() {
-  if (localStorage.getItem('guid') !== null) {
+  if (localStorage.getItem("guid") !== null) {
     return window.localStorage.guid;
   } else {
     window.localStorage.guid = generateGUID();
@@ -23,44 +23,76 @@ function getGUID() {
   }
 }
 class App extends Component {
+  componentDidMount() {
+    // update info about ourselves
+    fetch("/api/people", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        guid: getGUID()
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        this.props.setState({
+          ...json
+        });
+      });
+    //update info about other people
+    fetch("/api/people", {
+      method: "get",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        this.props.setState({
+          people: json.people
+        });
+      });
+  }
   componentWillUpdate(nextProps, nextState) {
-    const dataForBackend = {
-      ...nextProps.state, 
-      guid: getGUID()
+    if (
+      this.props.state.pickPosition !== nextProps.state.pickPosition ||
+      this.props.state.why !== nextProps.state.why
+    ) {
+      fetch("/api/people", {
+        method: "put",
+        body: JSON.stringify({
+          ...nextProps.state,
+          people: undefined,
+          guid: getGUID()
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      });
     }
-    console.log(dataForBackend);
   }
 
- render() {
-  return (
-    <React.Fragment>
-      <AnimatedSwitch
-        atEnter={{ opacity: 0 }}
-        atLeave={{ opacity: 0 }}
-        atActive={{ opacity: 1 }}
-        className="switch-wrapper"
-      >
-        <Route exact path="/" component={Introduction} />
-        <Route path="/intro" component={Introduction} />
-        <Route path="/form" component={Form} />
-        <Route
-          path="/graph/"
-          render={() => {
-            return <GraphLayout />;
-          }}
-        />
-      </AnimatedSwitch>
-    </React.Fragment>
-  );
-}
+  render() {
+    return (
+      <React.Fragment>
+        <AnimatedSwitch
+          atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+          className="switch-wrapper"
+        >
+          <Route exact path="/" component={Introduction} />
+          <Route path="/intro" component={Introduction} />
+          <Route path="/form" component={Form} />
+          <Route path="/graph/" component={GraphLayout} />
+        </AnimatedSwitch>
+      </React.Fragment>
+    );
+  }
 }
 
 export default gs(App);
-
-// selectedPerson: {
-//     gender: "male",
-//     age: 28,
-//     occupation: "piano teacher",
-//     years: 5005,
-//     why: "I used to work at a bank, but always loved playing the piano. I decided to teach what I love to those who want to learn."
-//   }
