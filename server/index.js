@@ -14,6 +14,7 @@ app.use(express.static(path.resolve(__dirname, "..", "build")));
 app.put("/api/people", (req, res) => {
   const guid = req.body.guid;
   delete req.body.guid;
+  db.put(guid, req.body);
   res.sendStatus(200);
 });
 
