@@ -97,7 +97,7 @@ class GraphLayout extends Component {
               </a>
               <a
                 href={
-                  "http://www.facebook.com/share.php?u=" +
+                  "https://www.facebook.com/share.php?u=" +
                   encodeURIComponent(SOCIAL_TEXT)
                 }
                 target="_blank"
