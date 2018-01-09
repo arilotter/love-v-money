@@ -16,7 +16,6 @@ function Blurb(props) {
   return <div className="GraphLayoutBlurb">{props.children}</div>;
 }
 
-
 class GraphLayout extends Component {
   state = {
     elaborating: false,
@@ -96,7 +95,16 @@ class GraphLayout extends Component {
               >
                 <Icons icon="twitter" className="GraphLayoutAboutIcon" />
               </a>
-              <Icons icon="facebook" className="GraphLayoutAboutIcon" />
+              <a
+                href={
+                  "http://www.facebook.com/share.php?u=" +
+                  encodeURIComponent(SOCIAL_TEXT)
+                }
+                target="_blank"
+                rel="noopener"
+              >
+                <Icons icon="facebook" className="GraphLayoutAboutIcon" />
+              </a>
             </div>
           </div>
           <div className="GraphLayoutRightColumn">
