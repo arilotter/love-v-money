@@ -79,7 +79,7 @@ export default class Particles extends Component {
 
   render() {
     const cards = this.props.people
-      ? this.props.people.map(p => {
+      ? this.props.people.slice(0, 3).map(p => {
           const [x, y] = p.pickPosition;
           const fixedX =
             (window.innerWidth > 900

@@ -58,8 +58,9 @@ class App extends Component {
   }
   componentWillUpdate(nextProps, nextState) {
     if (
-      this.props.state.pickPosition !== nextProps.state.pickPosition ||
-      this.props.state.why !== nextProps.state.why
+      this.props.state.age &&
+      (this.props.state.pickPosition !== nextProps.state.pickPosition ||
+        this.props.state.why !== nextProps.state.why)
     ) {
       fetch("/api/people", {
         method: "put",
