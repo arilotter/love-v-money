@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import IconCross from "./Icons/Cross.svg";
-import IconDiamond from "./Icons/Diamond.svg";
-import IconCircle from "./Icons/Circle.svg";
-import IconCrossBlur from "./Icons/CrossBlur.svg";
-import IconDiamondBlur from "./Icons/DiamondBlur.svg";
-import IconCircleBlur from "./Icons/CircleBlur.svg";
-import MiniCard from "./MiniCard";
+import IconCross from "../Icons/Cross.svg";
+import IconDiamond from "../Icons/Diamond.svg";
+import IconCircle from "../Icons/Circle.svg";
+import IconCrossBlur from "../Icons/CrossBlur.svg";
+import IconDiamondBlur from "../Icons/DiamondBlur.svg";
+import IconCircleBlur from "../Icons/CircleBlur.svg";
+import MiniCard from "../MiniCard";
 
 export default class Particles extends Component {
   state = {
     imagesLoaded: 0,
-    particles: []
+    particles: [],
+    width: 0,
+    height: 0
   };
   imageLoaded = () => {
     const newImageCount = this.state.imagesLoaded + 1;
@@ -20,7 +22,7 @@ export default class Particles extends Component {
     }
   };
   doPaint = () => {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.clearRect(0, 0, this.state.width, this.state.height);
     this.state.particles.forEach(({ x, y, icon, speed }) => {
       let iconName = icon;
       if (speed < 0.5) {
@@ -28,7 +30,7 @@ export default class Particles extends Component {
       }
       this.ctx.drawImage(
         this[iconName],
-        x * this.canvas.width,
+        x * this.state.width,
         y * document.body.scrollHeight -
           document.scrollingElement.scrollTop * speed
       );
@@ -36,12 +38,13 @@ export default class Particles extends Component {
   };
 
   onResize = () => {
-    if (!this.canvas) {
-      return;
-    }
-    if (this.canvas.width !== window.innerWidth) {
-      const numParticles = Math.round(window.innerWidth / 10);
-      const particles = new Array(numParticles).fill(0).map(() => {
+    const newState = {
+      width: window.outerWidth,
+      height: window.innerHeight
+    };
+    if (window.outerWidth !== this.state.width) {
+      const numParticles = Math.round(window.outerWidth / 10);
+      newState.particles = new Array(numParticles).fill(0).map(() => {
         let icon;
         const rand = Math.random();
         if (rand > 2 / 3) icon = "iconCross";
@@ -56,14 +59,8 @@ export default class Particles extends Component {
           icon
         };
       });
-      this.setState({
-        particles,
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
     }
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    this.setState(newState);
 
     this.doPaint();
   };
@@ -85,24 +82,30 @@ export default class Particles extends Component {
       ? this.props.people.map(p => {
           const [x, y] = p.pickPosition;
           const fixedX =
-            (x > 0.5 ? 2 / 3 + 2 / 3 * (x - 0.5) : x * (2 / 3)) *
-            this.state.width;
+            (window.innerWidth > 900
+              ? x > 0.5 ? 2 / 3 + 1 / 3 * (x - 0.5) : x * (2 / 3)
+              : x * 0.5) * this.state.width;
+          let fixedY = y;
+          if (y > 1 / 3 && y < 1 / 2) fixedY -= 1 / 3;
+          else if (y > 1 / 2 && y < 2 / 3) fixedY += 1 / 3;
+          fixedY *= this.state.height;
           return (
             <MiniCard
+              key={Math.round(fixedX * y * 10000)}
               age={p.age}
               gender={p.gender}
               occupation={p.occupation}
               style={{
                 position: "absolute",
                 left: fixedX + "px",
-                top: y * this.state.height + "px"
+                top: fixedY + "px"
               }}
             />
           );
         })
       : [];
     return (
-      <div>
+      <div className="Particles">
         <img
           alt=""
           ref={iconCross => (this.iconCross = iconCross)}
@@ -147,7 +150,9 @@ export default class Particles extends Component {
         />
         {cards}
         <canvas
-          ref={canvas => (this.canvas = canvas)}
+          ref={canvas => {
+            this.canvas = canvas;
+          }}
           style={{
             position: "fixed",
             top: 0,
@@ -157,6 +162,8 @@ export default class Particles extends Component {
             pointerEvents: "none",
             zIndex: -1
           }}
+          width={this.state.width}
+          height={this.state.height}
         />
       </div>
     );

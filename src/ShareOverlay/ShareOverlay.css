@@ -54,3 +54,15 @@
   color: white;
   background: #fa3a38;
 }
+
+@media screen and (max-width: 900px) {
+  .ShareOverlay .TripleLayoutText {
+    padding: 0;
+  }
+  .ShareOverlayTextArea {
+    width: 90vw;
+    font-size: 48px;
+    line-height: 64px;
+    min-height: 150px;
+  }
+}

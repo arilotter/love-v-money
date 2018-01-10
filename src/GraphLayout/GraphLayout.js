@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { gs } from "../react-global-state";
 import Icons from "../Icons";
 import Button from "../Button";
@@ -62,7 +61,7 @@ class GraphLayout extends Component {
         <div className="GraphLayoutContainer">
           <div className="GraphLayoutLeftColumn">
             <div className="GraphLayoutTitle">
-              I work<br />for{" "}
+              I work for{" "}
               <Icons
                 className="GraphLayoutTitleIcons"
                 icons={["heart", "money", "questionMark"]}
@@ -78,34 +77,6 @@ class GraphLayout extends Component {
                 why={this.state.selectedPerson.why}
               />
             )}
-            <div className="GraphLayoutAbout">
-              <span
-                className="GraphLayoutAboutLink"
-                onClick={() => this.setState({ about: true })}
-              >
-                About this project
-              </span>
-              <a
-                href={
-                  "https://twitter.com/intent/tweet?text=" +
-                  encodeURIComponent(SOCIAL_TEXT)
-                }
-                target="_blank"
-                rel="noopener"
-              >
-                <Icons icon="twitter" className="GraphLayoutAboutIcon" />
-              </a>
-              <a
-                href={
-                  "https://www.facebook.com/share.php?u=" +
-                  encodeURIComponent(SOCIAL_TEXT)
-                }
-                target="_blank"
-                rel="noopener"
-              >
-                <Icons icon="facebook" className="GraphLayoutAboutIcon" />
-              </a>
-            </div>
           </div>
           <div className="GraphLayoutRightColumn">
             <Graph
@@ -123,6 +94,34 @@ class GraphLayout extends Component {
               highlighted={this.state.selectedPerson}
             />
           </div>
+        </div>
+        <div className="GraphLayoutAbout">
+          <span
+            className="GraphLayoutAboutLink"
+            onClick={() => this.setState({ about: true })}
+          >
+            About this project
+          </span>
+          <a
+            href={
+              "https://twitter.com/intent/tweet?text=" +
+              encodeURIComponent(SOCIAL_TEXT)
+            }
+            target="_blank"
+            rel="noopener"
+          >
+            <Icons icon="twitter" className="GraphLayoutAboutIcon" />
+          </a>
+          <a
+            href={
+              "https://www.facebook.com/share.php?u=" +
+              encodeURIComponent(SOCIAL_TEXT)
+            }
+            target="_blank"
+            rel="noopener"
+          >
+            <Icons icon="facebook" className="GraphLayoutAboutIcon" />
+          </a>
         </div>
       </React.Fragment>
     );

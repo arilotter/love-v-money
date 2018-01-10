@@ -1,6 +1,6 @@
-.Introduction {
-
-}
-
-.IntroductionSection {
+@media screen and (max-width: 600px) {
+  .Introduction .TripleLayoutText {
+    font-size: 48px;
+    line-height: 46px;
+  }
 }

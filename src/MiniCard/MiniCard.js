@@ -10,9 +10,11 @@ export default function MiniCard({ gender, age, occupation, style }) {
   return (
     <div style={style}>
       <Icons icon={icon} className="MiniCardIcon" />
-      <div className="MiniCardOccupation">{occupation}</div>
-      <div className="MiniCardInfo">
-        <span className="MiniCardCapitalize">{gender}</span>, {age} y/o
+      <div className="MiniCardText">
+        <div className="MiniCardOccupation">{occupation}</div>
+        <div className="MiniCardInfo">
+          <span className="MiniCardCapitalize">{gender}</span>, {age} y/o
+        </div>
       </div>
     </div>
   );

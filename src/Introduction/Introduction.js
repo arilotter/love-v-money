@@ -2,14 +2,14 @@ import React from "react";
 import { gs } from "../react-global-state";
 import TripleLayout from "../TripleLayout";
 import Highlight from "../Highlight";
-import Particles from "../Particles";
+import Particles from "./Particles";
 import "./Introduction.css";
 
 function Introduction({ history, state }) {
   return (
     <React.Fragment>
-      <Particles people={state.people}/>
       <div className="Introduction">
+        <Particles people={state.people} />
         <TripleLayout icons={["heart"]} className="IntroductionSection">
           some people<br />pursue a <Highlight>passion</Highlight>
         </TripleLayout>

@@ -15,9 +15,10 @@ export default class NaturalInput extends Component {
     this.props.onChange(text, valid);
   };
   render() {
+    const elem = document.querySelector(".TripleLayoutText");
     const defaultWidth = textWidth(this.props.default, {
       family: "Miller",
-      size: "60px"
+      size: elem ? getComputedStyle(elem).fontSize : "0"
     });
     const minWidth = this.state.text === "" ? defaultWidth : 0;
     return (

@@ -16,12 +16,17 @@ export default class Graph extends Component {
     hover: false
   };
   onClick = e => {
+    const rect = e.target.getBoundingClientRect();
     if (!this.props.pickPosition) {
-      const money = this.x / this.w;
-      const love = 1 - this.y / this.w;
+      const money = (e.pageX - rect.left) / this.w;
+      const love = 1 - (e.pageY - rect.top) / this.w;
       this.props.onPick(money, love);
     } else if (this.state.hover) {
+      this.onMouseMove(e);
+      console.log(this.state.hover);
       this.props.setHighlighted(this.state.hover);
+    } else {
+      this.props.setHighlighted(null);
     }
   };
 
@@ -29,6 +34,20 @@ export default class Graph extends Component {
     const rect = e.target.getBoundingClientRect();
     this.x = e.pageX - rect.left;
     this.y = e.pageY - rect.top;
+    const closest = (this.props.people || [])
+      .map(person => {
+        const [x, y] = person.pickPosition;
+        const dx = x - this.x / this.w;
+        const dy = y - (1 - this.y / this.w);
+        return { person, dist: dx * dx + dy * dy };
+      })
+      .sort((a, b) => a.dist - b.dist)
+      .shift();
+    if (closest && closest.dist * this.w < CIRCLE_SIZE) {
+      this.setState({ hover: closest.person });
+    } else {
+      this.setState({ hover: false });
+    }
   };
 
   onResize = width => {
@@ -81,21 +100,6 @@ export default class Graph extends Component {
     } else {
       const [x, y] = this.props.pickPosition;
       renderCursor(ctx, x * this.w, (1 - y) * this.w, CIRCLE_SIZE);
-
-      const closest = (this.props.people || [])
-        .map(person => {
-          const [x, y] = person.pickPosition;
-          const dx = x - this.x / this.w;
-          const dy = y - (1 - this.y / this.w);
-          return { person, dist: dx * dx + dy * dy };
-        })
-        .sort((a, b) => (a.dist = b.dist))
-        .shift();
-      if (closest && closest.dist * this.w < CIRCLE_SIZE / 6) {
-        this.setState({ hover: closest.person });
-      } else {
-        this.setState({ hover: false });
-      }
     }
   };
 
@@ -112,47 +116,43 @@ export default class Graph extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="GraphPositioningContainer">
-          <div className="GraphContainer">
-            <Icons icon="heart" className="GraphYLabel" />
-            <div
-              className={classNames("Graph", {
-                GraphHover: this.state.hover
-              })}
-            >
-              <ReactResizeDetector handleWidth onResize={this.onResize} />
-              <canvas
-                className="GraphCanvas"
-                ref={canvas => {
-                  this.canvas = canvas;
+      <div className="DoubleContainer">
+        <div className="GraphContainer">
+          <Icons icon="heart" className="GraphYLabel" />
+          <div
+            className={classNames("Graph", {
+              GraphHover: this.state.hover
+            })}
+          >
+            <ReactResizeDetector handleWidth onResize={this.onResize} />
+            <canvas
+              className="GraphCanvas"
+              ref={canvas => {
+                this.canvas = canvas;
+              }}
+              onMouseMove={this.onMouseMove}
+              onClick={this.onClick}
+              onMouseEnter={() => this.setState({ mouseIn: true })}
+              onMouseLeave={() => this.setState({ mouseIn: false })}
+            />
+            {this.state.hover && (
+              <Card
+                gender={this.state.hover.gender}
+                age={this.state.hover.age}
+                occupation={this.state.hover.occupation}
+                small
+                style={{
+                  position: "absolute",
+                  left: this.state.hover.pickPosition[0] * this.w + "px",
+                  top:
+                    (1 - this.state.hover.pickPosition[1]) * this.w - 70 + "px"
                 }}
-                onMouseMove={this.onMouseMove}
-                onClick={this.onClick}
-                onMouseEnter={() => this.setState({ mouseIn: true })}
-                onMouseLeave={() => this.setState({ mouseIn: false })}
               />
-              {this.state.hover && (
-                <Card
-                  gender={this.state.hover.gender}
-                  age={this.state.hover.age}
-                  occupation={this.state.hover.occupation}
-                  small
-                  style={{
-                    position: "absolute",
-                    left: this.state.hover.pickPosition[0] * this.w + "px",
-                    top:
-                      (1 - this.state.hover.pickPosition[1]) * this.w -
-                      70 +
-                      "px"
-                  }}
-                />
-              )}
-            </div>
-            <Icons icon="money" className="GraphXLabel" />
+            )}
           </div>
+          <Icons icon="money" className="GraphXLabel" />
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

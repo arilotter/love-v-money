@@ -23,7 +23,7 @@ function getGUID() {
   }
 }
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     // update info about ourselves
     fetch("/api/people", {
       method: "post",

@@ -1,17 +1,22 @@
 .GraphLayoutContainer {
   display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vh;
 }
+
 .GraphLayoutLeftColumn {
   height: calc(100vh - 80px);
   padding: 80px;
   padding-bottom: 0;
   box-shadow: -3px 0px 33.6px 1.4px rgba(209, 209, 212, 0.39);
   position: relative;
-  max-width: 500px;
+  max-width: 412px;
+  flex: auto;
 }
 .GraphLayoutRightColumn {
   padding: 0;
-  width: 100%;
+  flex: auto;
   height: 100vh;
 }
 
@@ -22,11 +27,12 @@
   border-bottom: 2px dotted #dddddd;
   margin: 0;
   display: inline-block;
-  white-space: nowrap;
 }
+
 .GraphLayoutTitleIcons {
   display: inline-block;
 }
+
 .GraphLayoutTitleIcons .Icon {
   height: 64px;
   padding: 0 12px;
@@ -49,6 +55,7 @@
   color: #626262;
   position: absolute;
   bottom: 52px;
+  left: 52px;
 }
 .GraphLayoutAboutLink {
   cursor: pointer;
@@ -68,4 +75,63 @@
 }
 .Cap {
   text-transform: capitalize;
+}
+
+@media screen and (max-width: 900px) {
+  .GraphLayoutContainer {
+    flex-direction: column;
+    text-align: center;
+    height: 100vh;
+  }
+
+  .GraphLayoutTitle {
+    font-size: 40px;
+    line-height: 35px;
+    border: none;
+    padding-top: 10px;
+  }
+
+  .GraphLayoutTitleIcons .Icon {
+    height: 26px;
+    padding: 0 4px;
+  }
+
+  .GraphLayoutLeftColumn {
+    height: initial;
+    width: 100%;
+    max-width: initial;
+    padding: 0;
+    flex: none;
+  }
+
+  .GraphLayoutRightColumn {
+    width: 100vw;
+    height: auto;
+    flex: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .GraphLayoutAbout {
+    position: absolute;
+    display: flex;
+    left: 0;
+    bottom: 0;
+    padding: 8px 16px;
+  }
+
+  .GraphLayoutBlurb {
+    padding: 0 24px;
+    padding-top: 8px;
+    font-size: 24px;
+  }
+
+  .GraphLayoutAboutIcon .Icon {
+    height: 10px;
+    padding: 0 8px;
+  }
+  .GraphLayoutButton {
+    margin: 16px;
+  }
 }

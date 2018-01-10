@@ -3,21 +3,23 @@
   color: #fa3a38;
   font: 22px "Franklin Gothic";
   line-height: 18px;
-  display: inline-block;
-  width: 256px;
 }
 .MiniCardInfo {
   font: 18px "Miller";
   color: #3c3c3c;
 }
 .MiniCardIcon {
-    float: left;
-    height: 32px;
-    padding-right: 12px;
-    transform: translateY(-24px);
-    filter: sepia(100%) hue-rotate(-33deg) saturate(100); /* stupid lame hack */
+  float: left;
+  height: 32px;
+  padding-right: 12px;
+  transform: translateY(-24px);
+  filter: sepia(100%) hue-rotate(-33deg) saturate(100); /* stupid lame hack */
 }
 
 .MiniCardCapitalize {
-    text-transform: capitalize;
+  text-transform: capitalize;
+}
+
+.MiniCardText {
+  display: inline-block;
 }

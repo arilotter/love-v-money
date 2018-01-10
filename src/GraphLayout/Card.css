@@ -1,54 +1,68 @@
-
 .GraphCard {
-    position: relative;
-    border: 2px solid #fa3a38;
-    box-sizing: border-box;
-    width: 90%;
-    margin-top: 32px;
-    padding: 32px;
-    background: white;
-  }
+  position: relative;
+  border: 2px solid #fa3a38;
+  box-sizing: border-box;
+  width: 90%;
+  margin-top: 32px;
+  padding: 32px;
+  background: white;
+}
 
-  .GraphCardSmall {
-    padding: 16px 28px;
-    width: auto;
-    display: inline-block;
-    pointer-events: none;
+.GraphCardSmall {
+  padding: 16px 28px;
+  width: auto;
+  display: inline-block;
+  pointer-events: none;
+}
+
+.GraphCard::before {
+  content: "";
+  background: #fa3a38;
+  position: absolute;
+  right: -16px;
+  top: 8px;
+  bottom: -16px;
+  left: 8px;
+  z-index: -1;
+}
+
+.GraphCardInfo {
+  text-transform: uppercase;
+  color: #3c3c3c;
+}
+
+.GraphCardYears {
+  text-transform: uppercase;
+  color: #fa3a38;
+  font-size: 32px;
+  line-height: 32px;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+.GraphCardSmall .GraphCardYears {
+  padding: 0;
+  font-size: 22px;
+  line-height: 22px;
+}
+
+.GraphCardWhy {
+  font: 18px "Miller";
+  color: #3c3c3c;
+  line-height: 24px;
+}
+@media screen and (max-width: 900px) {
+  .GraphCard {
+    margin: auto;
+    margin-top: 8px;
+    padding: 8px;
+    text-align: left;
   }
-  
-  .GraphCard::before {
-    content: "";
-    background: #fa3a38;
-    position: absolute;
-    right: -16px;
-    top: 8px;
-    bottom: -16px;
-    left: 8px;
-    z-index: -1;
-  }
-  
   .GraphCardInfo {
-    text-transform: uppercase;
-    color: #3c3c3c;
   }
-  
   .GraphCardYears {
-    text-transform: uppercase;
-    color: #fa3a38;
-    font-size: 32px;
-    line-height: 32px;
-    padding-top: 20px;
-    padding-bottom: 30px;
-  }
-  
-  .GraphCardSmall .GraphCardYears {
-    padding: 0;
-    font-size: 22px;
-    line-height: 22px;
-  }
-  
-  .GraphCardWhy {
-    font: 18px "Miller";
-    color: #3c3c3c;
+    padding: 4px;
+    font-size: 24px;
     line-height: 24px;
   }
+}
