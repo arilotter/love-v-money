@@ -23,7 +23,6 @@ export default class Graph extends Component {
       this.props.onPick(money, love);
     } else if (this.state.hover) {
       this.onMouseMove(e);
-      console.log(this.state.hover);
       this.props.setHighlighted(this.state.hover);
     } else {
       this.props.setHighlighted(null);
@@ -31,22 +30,24 @@ export default class Graph extends Component {
   };
 
   onMouseMove = e => {
-    const rect = e.target.getBoundingClientRect();
-    this.x = e.pageX - rect.left;
-    this.y = e.pageY - rect.top;
-    const closest = (this.props.people || [])
-      .map(person => {
-        const [x, y] = person.pickPosition;
-        const dx = x - this.x / this.w;
-        const dy = y - (1 - this.y / this.w);
-        return { person, dist: dx * dx + dy * dy };
-      })
-      .sort((a, b) => a.dist - b.dist)
-      .shift();
-    if (closest && closest.dist * this.w < CIRCLE_SIZE) {
-      this.setState({ hover: closest.person });
-    } else {
-      this.setState({ hover: false });
+    if (this.props.pickPosition) {
+      const rect = e.target.getBoundingClientRect();
+      this.x = e.pageX - rect.left;
+      this.y = e.pageY - rect.top;
+      const closest = (this.props.people || [])
+        .map(person => {
+          const [x, y] = person.pickPosition;
+          const dx = x - this.x / this.w;
+          const dy = y - (1 - this.y / this.w);
+          return { person, dist: dx * dx + dy * dy };
+        })
+        .sort((a, b) => a.dist - b.dist)
+        .shift();
+      if (closest && closest.dist * this.w < CIRCLE_SIZE) {
+        this.setState({ hover: closest.person });
+      } else {
+        this.setState({ hover: false });
+      }
     }
   };
 
