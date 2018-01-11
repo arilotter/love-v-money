@@ -6,8 +6,8 @@ import "./NaturalInput.css";
 
 export default class NaturalInput extends Component {
   state = {
-    text: this.props.default,
-    valid: true
+    text: "",
+    valid: false
   };
   handleChange = (event, text) => {
     const valid = this.props.isValidInput(text);
@@ -35,22 +35,13 @@ export default class NaturalInput extends Component {
               return false;
             }
           }}
-          className={classNames(this.props.className, {
+          className={classNames("FormInput", this.props.className, {
             FormInputInvalid: this.state.valid
           })}
           html={this.state.text}
           tagName="span"
           onChange={this.handleChange}
-          onFocus={() => {
-            if (this.state.text === this.props.default) {
-              this.setState({ text: "" });
-            }
-          }}
-          onBlur={() => {
-            if (this.state.text === "") {
-              this.setState({ text: this.props.default });
-            }
-          }}
+          placeholder={this.props.default}
           contentEditable="plaintext-only"
         />
       </span>

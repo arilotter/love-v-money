@@ -1,7 +1,12 @@
 .NaturalInputContainer {
-    display: inline-block;
-    background-image: linear-gradient(to right, #fa3a38 50%, transparent 50%);
-    background-position: 0 1.05em;
-    background-repeat: repeat-x;
-    background-size: 6px 3px;
+  display: inline-block;
+  background-image: linear-gradient(to right, #fa3a38 50%, transparent 50%);
+  background-position: 0 1.05em;
+  background-repeat: repeat-x;
+  background-size: 6px 3px;
+}
+
+[contenteditable="true"]:not(:focus):empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
 }
