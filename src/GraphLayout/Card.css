@@ -19,9 +19,9 @@
   content: "";
   background: #fa3a38;
   position: absolute;
-  right: -16px;
+  right: -10px;
   top: 8px;
-  bottom: -16px;
+  bottom: -10px;
   left: 8px;
   z-index: -1;
 }
