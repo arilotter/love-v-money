@@ -218,7 +218,7 @@ function getRenderFunction(gender, blur) {
     return (ctx, x, y, width) => {
       const origStrokeStyle = ctx.strokeStyle;
       for (let i = 0; i < 5; i++) {
-        ctx.strokeStyle = hexToRgba(origStrokeStyle, i / 5);
+        ctx.strokeStyle = hexToRgba(origStrokeStyle, (5 - i) / 5);
         unblurredFunction(ctx, x, y, width + i);
       }
       ctx.strokeStyle = origStrokeStyle;
