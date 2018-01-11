@@ -23,6 +23,7 @@ export default class NaturalInput extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.resize);
+    setTimeout(this.resize(), 100);
   }
 
   componentWillUnmount() {
