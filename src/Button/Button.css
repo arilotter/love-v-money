@@ -10,7 +10,8 @@
   width: 207px;
   height: 60px;
   text-align: center;
-  line-height: 60px;
+  line-height: 64px;
+  vertical-align: middle;
   background: white;
   transition: background 0.15s ease-out, color 0.15s ease-out;
   cursor: pointer;
@@ -21,11 +22,13 @@
   background: #fa3a38;
   color: white;
 }
+
 .DisabledButton {
   border-color: #9d9d9d;
   color: #9d9d9d;
   cursor: inherit;
 }
+
 .DisabledButton:hover {
   background: inherit;
   color: #9d9d9d;

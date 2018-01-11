@@ -23,3 +23,8 @@
 .MiniCardText {
   display: inline-block;
 }
+@media screen and (max-width: 600px) {
+  .MiniCard {
+    display: none;
+  }
+}
