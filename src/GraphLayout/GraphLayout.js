@@ -26,14 +26,14 @@ class GraphLayout extends Component {
     if (!this.props.state.pickPosition) {
       leftColumnContents = (
         <Blurb>
-          Plot where you find yourself or lorem ipsum hover to explore other
-          people’s choices.
+          Plot where you find yourself; then hover to explore other people's
+          choices.
         </Blurb>
       );
     } else if (!this.props.state.why) {
       leftColumnContents = (
         <div>
-          <Blurb>Lorem ipsum about explaining why you did/chose it.</Blurb>
+          <Blurb>Tell us a few words about why you do what you do.</Blurb>
           <Button
             className="GraphLayoutButton"
             text="Tell us why"
