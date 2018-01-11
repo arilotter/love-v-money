@@ -59,7 +59,7 @@
 }
 .GraphLayoutAboutLink {
   cursor: pointer;
-  padding-right: 20px;
+  padding-right: 16px;
 }
 
 .GraphLayoutAboutLink:hover {
@@ -71,7 +71,7 @@
   cursor: pointer;
 }
 .GraphLayoutAboutIcon img {
-  padding: 0 4px;
+  padding: 0 8px;
 }
 .Cap {
   text-transform: capitalize;
