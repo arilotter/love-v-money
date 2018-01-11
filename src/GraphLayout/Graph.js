@@ -30,10 +30,10 @@ export default class Graph extends Component {
   };
 
   onMouseMove = e => {
+    const rect = e.target.getBoundingClientRect();
+    this.x = e.pageX - rect.left;
+    this.y = e.pageY - rect.top;
     if (this.props.pickPosition) {
-      const rect = e.target.getBoundingClientRect();
-      this.x = e.pageX - rect.left;
-      this.y = e.pageY - rect.top;
       const closest = (this.props.people || [])
         .map(person => {
           const [x, y] = person.pickPosition;
