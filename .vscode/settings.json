@@ -1,0 +1,6 @@
+{
+  "terminal.integrated.env.linux": {
+    "PATH":
+      "/home/ari/.platformio/penv/bin:/home/ari/bin:/home/ari/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+  }
+}

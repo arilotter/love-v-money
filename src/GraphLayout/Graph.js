@@ -134,7 +134,9 @@ export default class Graph extends Component {
               onMouseMove={this.onMouseMove}
               onClick={this.onClick}
               onMouseEnter={() => this.setState({ mouseIn: true })}
-              onMouseLeave={() => this.setState({ mouseIn: false })}
+              onMouseLeave={() =>
+                this.setState({ mouseIn: false, hover: false })
+              }
             />
             {this.state.hover && (
               <Card

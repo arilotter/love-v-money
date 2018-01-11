@@ -59,7 +59,11 @@ export default class Particles extends Component {
           x: Math.random(),
           y: Math.random(),
           speed:
-            Math.random() > 0.5 ? Math.random() / 3 + 0.1 : Math.random() + 0.5,
+            window.outerWidth > 900
+              ? Math.random() > 0.5
+                ? Math.random() / 3 + 0.1
+                : Math.random() + 0.5
+              : Math.random() / 2,
           icon
         };
       });
