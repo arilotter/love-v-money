@@ -67,8 +67,7 @@ class GraphLayout extends Component {
                 icons={["heart", "money", "questionMark"]}
               />
             </div>
-            {leftColumnContents}
-            {this.state.selectedPerson && (
+            {this.state.selectedPerson ? (
               <Card
                 gender={this.state.selectedPerson.gender}
                 age={this.state.selectedPerson.age}
@@ -76,6 +75,8 @@ class GraphLayout extends Component {
                 years={this.state.selectedPerson.years}
                 why={this.state.selectedPerson.why}
               />
+            ) : (
+              leftColumnContents
             )}
           </div>
           <div className="GraphLayoutRightColumn">
