@@ -8,7 +8,7 @@ export default function MiniCard({ gender, age, occupation, style }) {
   else if (gender === "female") icon = "circle";
   else icon = "cross";
   return (
-    <div style={style}>
+    <div style={style} className="MiniCard">
       <Icons icon={icon} className="MiniCardIcon" />
       <div className="MiniCardText">
         <div className="MiniCardOccupation">{occupation}</div>
