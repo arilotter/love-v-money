@@ -23,14 +23,19 @@ export default class Particles extends Component {
   };
   doPaint = () => {
     this.ctx.clearRect(0, 0, this.state.width, this.state.height);
+
+    const gapSize = this.state.width > 900 ? 760 : 300;
+    const sideSize = (this.state.width - gapSize) / 2;
     this.state.particles.forEach(({ x, y, icon, speed }) => {
       let iconName = icon;
       if (speed < 0.5) {
         iconName += "Blur";
       }
+      const scaledX =
+        x > 0.5 ? sideSize + gapSize + (x - 0.5) * 2 * sideSize : x * sideSize;
       this.ctx.drawImage(
         this[iconName],
-        x * this.state.width,
+        scaledX,
         y * document.body.scrollHeight -
           document.scrollingElement.scrollTop * speed
       );
@@ -43,7 +48,7 @@ export default class Particles extends Component {
       height: window.innerHeight
     };
     if (window.outerWidth !== this.state.width) {
-      const numParticles = Math.round(window.outerWidth / 10);
+      const numParticles = Math.round(window.outerWidth / 20);
       newState.particles = new Array(numParticles).fill(0).map(() => {
         let icon;
         const rand = Math.random();
@@ -51,9 +56,8 @@ export default class Particles extends Component {
         else if (rand > 1 / 3) icon = "iconDiamond";
         else icon = "iconCircle";
         return {
-          x:
-            Math.random() > 0.5 ? Math.random() / 3 + 2 / 3 : Math.random() / 3,
-          y: 1 - Math.pow(Math.random(), 1.5),
+          x: Math.random(),
+          y: Math.random(),
           speed:
             Math.random() > 0.5 ? Math.random() / 3 + 0.1 : Math.random() + 0.5,
           icon
