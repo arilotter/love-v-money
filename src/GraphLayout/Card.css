@@ -2,13 +2,17 @@
   position: relative;
   border: 2px solid #fa3a38;
   box-sizing: border-box;
-  width: 90%;
-  margin-top: 32px;
   padding: 32px;
+  width: 90%;
+  height: 0;
+  padding-bottom: calc(90% - 32px);
+  margin-top: 32px;
   background: white;
 }
 
 .GraphCardSmall {
+  padding-bottom: initial;
+  height: initial;
   padding: 16px 28px;
   width: auto;
   display: inline-block;
