@@ -10,6 +10,10 @@
   background: white;
 }
 
+.GraphCardReset {
+  z-index: 0;
+}
+
 .GraphCardSmall {
   padding-bottom: initial;
   height: initial;
