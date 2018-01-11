@@ -5,10 +5,29 @@ import classNames from "classnames";
 import "./NaturalInput.css";
 
 export default class NaturalInput extends Component {
+  size = 0;
   state = {
     text: "",
     valid: false
   };
+
+  resize = () => {
+    if (
+      (window.innerWidth <= 600 && this.size >= 600) ||
+      (window.innerWidth >= 600 && this.size <= 600)
+    ) {
+      this.forceUpdate();
+    }
+    this.size = window.innerWidth;
+  };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.resize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resize);
+  }
   handleChange = (event, text) => {
     const valid = this.props.isValidInput(text);
     this.setState({ text, valid });
