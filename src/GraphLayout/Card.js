@@ -1,4 +1,5 @@
 import React from "react";
+import a from "indefinite";
 import "./Card.css";
 export default function Card(props) {
   if (props.small) {
@@ -17,7 +18,7 @@ export default function Card(props) {
           {props.gender}, {props.age} Y/O
         </div>
         <div className="GraphCardYears">
-          I've been a {props.occupation} for {props.years} years
+          I've been {a(props.occupation)} for {props.years} years
         </div>
         <div className="GraphCardWhy">{props.why}</div>
       </div>
