@@ -34,7 +34,7 @@ export default class Graph extends Component {
     const rect = e.target.getBoundingClientRect();
     this.x = e.pageX - rect.left;
     this.y = e.pageY - rect.top;
-    if (this.props.me.pickPosition) {
+    if (this.props.me && this.props.me.pickPosition) {
       const people = this.props.me
         ? [...this.props.people, this.props.me]
         : this.props.people;
