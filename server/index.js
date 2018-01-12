@@ -22,13 +22,12 @@ app.put("/api/people", (req, res) => {
 
 const getPeople = (req, res) => {
   const myID = req.body.guid;
-  const me = db.get();
+  const me = db.get(myID);
 
   const strangerIDs = db.keys();
   const strangerCount = Math.min(strangerIDs.length, 10);
-  const strangerKeys = getRandom(strangerIDs, strangerCount).filter(
-    id => id !== myID
-  );
+  let strangerKeys = getRandom(strangerIDs, strangerCount);
+  if (myID) strangerKeys = strangerKeys.filter(id => id !== myID);
   const strangers = strangerKeys.map(key => db.get(key));
 
   res.send({ strangers, me });
