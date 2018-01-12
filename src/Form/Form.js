@@ -103,7 +103,11 @@ class Form extends Component {
           buttonDisabled={!this.state.formFull}
           onButtonClick={this.submit}
         >
-          I am a {age} y/o {gender}
+          I am{" "}
+          {this.state.data.age && this.state.data.age.startsWith("8")
+            ? "an"
+            : "a"}{" "}
+          {age} y/o {gender}
           <br />
           {occupation} <br /> working for {years} years.
         </TripleLayout>
