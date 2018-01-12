@@ -4,6 +4,8 @@ const path = require("path");
 const fs = require("fs");
 const flatfile = require("flat-file-db");
 
+const { getRandom } = require("./random");
+
 const DB_PATH = path.resolve(__dirname, "..", "userdata.db");
 const db = flatfile.sync(DB_PATH);
 
@@ -18,17 +20,22 @@ app.put("/api/people", (req, res) => {
   res.sendStatus(200);
 });
 
-app.post("/api/people", (req, res) => {
-  res.send(db.get(req.body.guid) || {} );
-});
+const getPeople = (req, res) => {
+  const myID = req.body.guid;
+  const me = db.get();
 
-app.get("/api/people", (req, res) => {
-  const keys = db.keys();
-  const itemsToTake = Math.min(keys.length, 10);
-  const randKeys = getRandom(keys, itemsToTake);
-  const people = randKeys.map(key => db.get(key));
-  res.send({ people });
-});
+  const strangerIDs = db.keys();
+  const strangerCount = Math.min(strangerIDs.length, 10);
+  const strangerKeys = getRandom(strangerIDs, strangerCount).filter(
+    id => id !== myID
+  );
+  const strangers = strangerKeys.map(key => db.get(key));
+
+  res.send({ strangers, me });
+};
+
+app.post("/api/people", getPeople);
+app.get("/api/people", getPeople);
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
@@ -39,17 +46,3 @@ const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
-
-function getRandom(arr, n) {
-  const result = new Array(n);
-  let len = arr.length;
-  const taken = new Array(len);
-  if (n > len)
-    throw new RangeError("getRandom: more elements taken than available");
-  while (n--) {
-    const x = Math.floor(Math.random() * len);
-    result[n] = arr[x in taken ? taken[x] : x];
-    taken[x] = --len;
-  }
-  return result;
-}

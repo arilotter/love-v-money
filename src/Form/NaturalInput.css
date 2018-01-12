@@ -6,7 +6,10 @@
   background-size: 6px 3px;
 }
 
-[contenteditable="true"]:not(:focus):empty:before {
+[contenteditable="true"]:empty:before {
   content: attr(placeholder);
   display: block; /* For Firefox */
+}
+[contenteditable="true"]:focus:empty:before {
+  color: transparent;
 }

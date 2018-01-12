@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ContentEditable from "react-simple-contenteditable";
-import textWidth from "text-width";
 import classNames from "classnames";
 import "./NaturalInput.css";
 
@@ -11,41 +10,14 @@ export default class NaturalInput extends Component {
     valid: false
   };
 
-  resize = () => {
-    if (
-      (window.innerWidth <= 600 && this.size >= 600) ||
-      (window.innerWidth >= 600 && this.size <= 600)
-    ) {
-      this.forceUpdate();
-    }
-    this.size = window.innerWidth;
-  };
-
-  componentDidMount() {
-    window.addEventListener("resize", this.resize);
-    setTimeout(this.resize, 100);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-  }
   handleChange = (event, text) => {
     const valid = this.props.isValidInput(text);
     this.setState({ text, valid });
     this.props.onChange(text, valid);
   };
   render() {
-    const elem = document.querySelector(".TripleLayoutText");
-    const defaultWidth = textWidth(this.props.default, {
-      family: "Miller",
-      size: elem ? getComputedStyle(elem).fontSize : "0"
-    });
-    const minWidth = this.state.text === "" ? defaultWidth : 0;
     return (
-      <span
-        className="NaturalInputContainer"
-        style={{ minWidth: minWidth + "px" }}
-      >
+      <span className="NaturalInputContainer">
         <ContentEditable
           onKeyDown={event => {
             if ((event.keyCode || event.charCode) === 13) {
@@ -55,7 +27,7 @@ export default class NaturalInput extends Component {
               return false;
             }
           }}
-          className={classNames("FormInput", this.props.className, {
+          className={classNames(this.props.className, {
             FormInputInvalid: this.state.valid
           })}
           html={this.state.text}

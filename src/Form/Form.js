@@ -46,7 +46,6 @@ class Form extends Component {
       ...this.state.data,
       [key]: valid ? text : false
     };
-    console.log(data);
     const formFull = Object.values(data).every(key => key !== false);
     this.setState({
       formFull,
