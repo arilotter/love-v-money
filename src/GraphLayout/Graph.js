@@ -43,7 +43,7 @@ export default class Graph extends Component {
         })
         .sort((a, b) => a.dist - b.dist)
         .shift();
-      if (closest && closest.dist * this.w < CIRCLE_SIZE) {
+      if (closest && Math.sqrt(closest.dist) * this.w < CIRCLE_SIZE) {
         this.setState({ hover: closest.person });
       } else {
         this.setState({ hover: false });
@@ -116,6 +116,26 @@ export default class Graph extends Component {
   }
 
   render() {
+    let card;
+    if (this.state.hover) {
+      const x = this.state.hover.pickPosition[0];
+      const rightSide = x > 0.5;
+      const side = rightSide ? "right" : "left";
+      const xOffset = (rightSide ? 1 - x : x) * this.w;
+      card = (
+        <Card
+          gender={this.state.hover.gender}
+          age={this.state.hover.age}
+          occupation={this.state.hover.occupation}
+          small
+          style={{
+            position: "absolute",
+            [side]: xOffset + "px",
+            top: (1 - this.state.hover.pickPosition[1]) * this.w - 70 + "px"
+          }}
+        />
+      );
+    }
     return (
       <div className="DoubleContainer">
         <div className="GraphContainer">
@@ -138,20 +158,7 @@ export default class Graph extends Component {
                 this.setState({ mouseIn: false, hover: false })
               }
             />
-            {this.state.hover && (
-              <Card
-                gender={this.state.hover.gender}
-                age={this.state.hover.age}
-                occupation={this.state.hover.occupation}
-                small
-                style={{
-                  position: "absolute",
-                  left: this.state.hover.pickPosition[0] * this.w + "px",
-                  top:
-                    (1 - this.state.hover.pickPosition[1]) * this.w - 70 + "px"
-                }}
-              />
-            )}
+            {card}
           </div>
           <Icons icon="money" className="GraphXLabel" />
         </div>
