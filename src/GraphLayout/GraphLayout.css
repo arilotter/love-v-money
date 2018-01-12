@@ -54,8 +54,8 @@
   font-size: 14px;
   color: #626262;
   position: absolute;
-  bottom: 52px;
-  left: 52px;
+  bottom: 40px;
+  left: 80px;
 }
 .GraphLayoutAboutLink {
   cursor: pointer;
@@ -63,16 +63,21 @@
 }
 
 .GraphLayoutAboutLink:hover {
-  text-decoration: underline;
+  color: #fa3a38;
 }
 .GraphLayoutAboutIcon {
   display: inline;
   padding: 0;
   cursor: pointer;
 }
+
 .GraphLayoutAboutIcon img {
   padding: 0 8px;
 }
+.GraphLayoutAboutIcon:hover img {
+  filter: sepia(100%) hue-rotate(-33deg) saturate(100); /* stupid lame hack */
+}
+
 .Cap {
   text-transform: capitalize;
 }
