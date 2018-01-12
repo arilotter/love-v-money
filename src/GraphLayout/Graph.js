@@ -18,7 +18,7 @@ export default class Graph extends Component {
   };
   onClick = e => {
     const rect = e.target.getBoundingClientRect();
-    if (!this.props.pickPosition) {
+    if (this.props.age && !this.props.pickPosition) {
       const money = (e.pageX - rect.left) / this.w;
       const love = 1 - (e.pageY - rect.top) / this.w;
       this.props.onPick(money, love);
