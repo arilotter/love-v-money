@@ -44,7 +44,6 @@ export default class Graph extends Component {
         })
         .sort((a, b) => a.dist - b.dist)
         .shift();
-      console.log(Math.sqrt(closest.dist) * this.w);
       if (closest && Math.sqrt(closest.dist) * this.w < CIRCLE_SIZE * 2) {
         this.setState({ hover: closest.person });
       } else {
@@ -147,6 +146,8 @@ export default class Graph extends Component {
             className={classNames("Graph", {
               GraphHover: this.state.hover
             })}
+            onMouseEnter={() => this.setState({ mouseIn: true })}
+            onMouseLeave={() => this.setState({ mouseIn: false, hover: false })}
           >
             <ReactResizeDetector handleWidth onResize={this.onResize} />
             <canvas
@@ -156,10 +157,6 @@ export default class Graph extends Component {
               }}
               onMouseMove={this.onMouseMove}
               onClick={this.onClick}
-              onMouseEnter={() => this.setState({ mouseIn: true })}
-              onMouseLeave={() =>
-                this.setState({ mouseIn: false, hover: false })
-              }
             />
             <Transition
               enter={{ opacity: 1 }}
