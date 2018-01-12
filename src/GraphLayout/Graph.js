@@ -34,8 +34,11 @@ export default class Graph extends Component {
     const rect = e.target.getBoundingClientRect();
     this.x = e.pageX - rect.left;
     this.y = e.pageY - rect.top;
-    if (this.props.pickPosition) {
-      const closest = (this.props.people || [])
+    if (this.props.me.pickPosition) {
+      const people = this.props.me
+        ? [...this.props.people, this.props.me]
+        : this.props.people;
+      const closest = (people || [])
         .map(person => {
           const [x, y] = person.pickPosition;
           const dx = x - this.x / this.w;
@@ -64,7 +67,8 @@ export default class Graph extends Component {
     this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
   };
 
-  onPaint = delta_time => {
+  onPaint(delta_time) {
+    if (this.props === undefined) return;
     if (this.props.pickPosition) {
       this.cursorAlpha = 1;
     } else if (this.state.mouseIn && this.cursorAlpha < 1) {
@@ -76,9 +80,13 @@ export default class Graph extends Component {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     drawGrid(ctx, this.w);
 
-    ctx.strokeStyle = "#3c3c3c";
-    if (this.props.people) {
-      this.props.people.forEach(({ pickPosition, gender }) => {
+    const people = this.props.me
+      ? [...this.props.people, { ...this.props.me, me: true }]
+      : this.props.people;
+    if (people) {
+      people.forEach(({ pickPosition, gender, me }) => {
+        if (me) ctx.strokeStyle = "#fa3a38";
+        else ctx.strokeStyle = "#3c3c3c";
         const [x, y] = pickPosition;
         const blur =
           (this.state.hover &&
@@ -95,21 +103,21 @@ export default class Graph extends Component {
         );
       });
     }
-    ctx.strokeStyle = `rgba(250,58,56, ${this.cursorAlpha})`;
-    const renderCursor = getRenderFunction(this.props.gender);
-    if (!this.props.pickPosition) {
-      renderCursor(ctx, this.x, this.y, 14);
-    } else {
-      const [x, y] = this.props.pickPosition;
-      renderCursor(ctx, x * this.w, (1 - y) * this.w, CIRCLE_SIZE);
+    if (this.props.me) {
+      ctx.strokeStyle = `rgba(250,58,56, ${this.cursorAlpha})`;
+      const renderCursor = getRenderFunction(this.props.me.gender);
+      if (!this.props.me.pickPosition) {
+        renderCursor(ctx, this.x, this.y, 14);
+      }
     }
-  };
+  }
 
   componentDidMount() {
     this.ctx = this.canvas.getContext("2d");
-    this.raf_loop = createRafLoop(this.onPaint).start();
+    this.raf_loop = createRafLoop(this.onPaint.bind(this)).start();
     this.resizeListener = this.onResize;
     setImmediate(() => this.onResize(this.w));
+    this.forceUpdate();
   }
 
   componentWillUnmount() {

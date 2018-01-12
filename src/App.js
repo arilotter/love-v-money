@@ -24,7 +24,7 @@ function getGUID() {
 }
 class App extends Component {
   componentWillMount() {
-    // update info about ourselves
+    // update info about other people and ourselves
     fetch("/api/people", {
       method: "post",
       headers: {
@@ -36,37 +36,19 @@ class App extends Component {
       })
     })
       .then(res => res.json())
-      .then(json => {
-        this.props.setState({
-          ...json
-        });
-      });
-    //update info about other people
-    fetch("/api/people", {
-      method: "get",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        this.props.setState({
-          people: json.people
-        });
-      });
+      .then(this.props.setState);
   }
   componentWillUpdate(nextProps, nextState) {
+    const me = this.props.state.me;
     if (
-      this.props.state.age &&
-      (this.props.state.pickPosition !== nextProps.state.pickPosition ||
-        this.props.state.why !== nextProps.state.why)
+      me &&
+      (me.pickPosition !== nextProps.state.me.pickPosition ||
+        me.why !== nextProps.state.me.why)
     ) {
       fetch("/api/people", {
         method: "put",
         body: JSON.stringify({
-          ...nextProps.state,
-          people: undefined,
+          ...nextProps.state.me,
           guid: getGUID()
         }),
         headers: {

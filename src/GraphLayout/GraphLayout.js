@@ -23,19 +23,19 @@ class GraphLayout extends Component {
   };
   render() {
     let leftColumnContents;
-    if (!this.props.state.age) {
+    if (!this.props.state.me) {
       // add back to form button?
       leftColumnContents = (
         <Blurb>Hover and click to explore other people's choices.</Blurb>
       );
-    } else if (!this.props.state.pickPosition) {
+    } else if (!this.props.state.me.pickPosition) {
       leftColumnContents = (
         <Blurb>
           Plot where you find yourself; then hover to explore other people's
           choices.
         </Blurb>
       );
-    } else if (!this.props.state.why) {
+    } else if (!this.props.state.me.why) {
       leftColumnContents = (
         <div>
           <Blurb>Tell us a few words about why you do what you do.</Blurb>
@@ -50,20 +50,15 @@ class GraphLayout extends Component {
       );
     } else {
       leftColumnContents = (
-        <Blurb>Hover and click to explore other people's choices.</Blurb>
+        <Blurb>
+          {window.innerWidth > 600 ? "Hover" : "Click"} to explore other
+          people's choices.
+        </Blurb>
       );
     }
     const about = this.state.about ? (
       <AboutOverlay onClosed={() => this.setState({ about: false })} />
     ) : null;
-    let people = this.props.state.people;
-    if (people && this.props.state.age) {
-      const me = {
-        ...this.props.state,
-        people: undefined
-      };
-      people = [...this.props.state.people, me];
-    }
     return (
       <React.Fragment>
         {about}
@@ -100,12 +95,11 @@ class GraphLayout extends Component {
             <Graph
               onPick={(money, love) =>
                 this.props.setState({
-                  pickPosition: [money, love]
+                  me: { ...this.props.state.me, pickPosition: [money, love] }
                 })
               }
-              pickPosition={this.props.state.pickPosition}
-              people={people}
-              gender={this.props.state.gender}
+              me={this.props.state.me}
+              people={this.props.state.strangers}
               setHighlighted={selectedPerson => {
                 this.setState({ selectedPerson });
               }}

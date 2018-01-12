@@ -9,7 +9,7 @@ function Introduction({ history, state }) {
   return (
     <React.Fragment>
       <div className="Introduction">
-        <Particles people={state.people} />
+        <Particles people={state.strangers} />
         <TripleLayout icons={["heart"]} className="IntroductionSection">
           some people<br />pursue a <Highlight>passion</Highlight>
         </TripleLayout>

@@ -91,9 +91,7 @@
 
   .GraphLayoutTitle {
     font-size: 40px;
-    line-height: 35px;
-    border: none;
-    padding-top: 10px;
+    line-height: 28px;
   }
 
   .GraphLayoutTitleIcons .Icon {
@@ -105,9 +103,8 @@
     height: initial;
     width: 100%;
     max-width: initial;
-    padding: 0;
+    padding: 10px 0;
     flex: none;
-    padding-bottom: 24px;
   }
 
   .GraphLayoutRightColumn {
@@ -128,9 +125,10 @@
   }
 
   .GraphLayoutBlurb {
-    padding: 8px 0;
+    padding: 0;
     font-size: 24px;
     margin: auto;
+    max-width: initial;
   }
 
   .GraphLayoutAboutIcon .Icon {

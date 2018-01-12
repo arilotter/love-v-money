@@ -37,7 +37,7 @@ class Form extends Component {
   };
 
   submit = () => {
-    this.props.setState({ ...this.state.data });
+    this.props.setState({ me: this.state.data });
     this.props.history.push("/graph");
   };
 
