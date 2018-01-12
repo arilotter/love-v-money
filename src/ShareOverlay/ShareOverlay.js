@@ -12,10 +12,7 @@ export default class ShareOverlay extends Component {
   render() {
     return this.props.open ? (
       <React.Fragment>
-        <div
-          className="ShareOverlayCloseButton"
-          onClick={this.props.onClose}
-        />
+        <div className="ShareOverlayCloseButton" onClick={this.props.onClose} />
         <TripleLayout
           className="ShareOverlay"
           icons={["heart", "money", "questionMark"]}
@@ -33,7 +30,7 @@ export default class ShareOverlay extends Component {
             style={{
               height: this.state.text.split("\n").length * 80 + "px"
             }}
-            placeholder="Tell us why you&#x0a;do what you do..."
+            placeholder="Tell us why you do what you do..."
           />
         </TripleLayout>
       </React.Fragment>
