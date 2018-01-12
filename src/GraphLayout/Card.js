@@ -17,7 +17,7 @@ export default function Card(props) {
     return (
       <div className="GraphCard" style={props.style}>
         <div className="GraphCardInfo">
-          {props.gender}, {props.age} Y/O
+          {props.gender ? props.gender + "," : ""} {props.age} Y/O
         </div>
         <div className="GraphCardYears">
           I've been {a(props.occupation)} for {props.years} years

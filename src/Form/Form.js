@@ -23,7 +23,7 @@ class Form extends Component {
       formFull: false,
       data: {
         age: false,
-        gender: false,
+        gender: "",
         occupation: false,
         years: false
       }
@@ -46,6 +46,7 @@ class Form extends Component {
       ...this.state.data,
       [key]: valid ? text : false
     };
+    console.log(data);
     const formFull = Object.values(data).every(key => key !== false);
     this.setState({
       formFull,
@@ -68,7 +69,7 @@ class Form extends Component {
         className="FormInput"
         type="number"
         default="gender"
-        isValidInput={isNotEmpty}
+        isValidInput={() => true}
         onChange={this.updateForm("gender")}
         onEnterPressed={this.onEnterPressed}
       />
