@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactResizeDetector from "react-resize-detector";
+import Transition from "react-motion-ui-pack";
 import Icons from "../Icons";
 import Card from "./Card";
 import "./Graph.css";
@@ -43,7 +44,8 @@ export default class Graph extends Component {
         })
         .sort((a, b) => a.dist - b.dist)
         .shift();
-      if (closest && Math.sqrt(closest.dist) * this.w < CIRCLE_SIZE) {
+      console.log(Math.sqrt(closest.dist) * this.w);
+      if (closest && Math.sqrt(closest.dist) * this.w < CIRCLE_SIZE * 2) {
         this.setState({ hover: closest.person });
       } else {
         this.setState({ hover: false });
@@ -116,7 +118,7 @@ export default class Graph extends Component {
   }
 
   render() {
-    let card;
+    let card = false;
     if (this.state.hover) {
       const x = this.state.hover.pickPosition[0];
       const rightSide = x > 0.5;
@@ -124,6 +126,7 @@ export default class Graph extends Component {
       const xOffset = (rightSide ? 1 - x : x) * this.w;
       card = (
         <Card
+          key="card"
           gender={this.state.hover.gender}
           age={this.state.hover.age}
           occupation={this.state.hover.occupation}
@@ -158,7 +161,13 @@ export default class Graph extends Component {
                 this.setState({ mouseIn: false, hover: false })
               }
             />
-            {card}
+            <Transition
+              enter={{ opacity: 1 }}
+              leave={{ opacity: 0 }}
+              component={false}
+            >
+              {card}
+            </Transition>
           </div>
           <Icons icon="money" className="GraphXLabel" />
         </div>

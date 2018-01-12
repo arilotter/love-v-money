@@ -4,8 +4,8 @@ import "./Card.css";
 export default function Card(props) {
   if (props.small) {
     return (
-      <div className="GraphCardReset">
-        <div className="GraphCard GraphCardSmall" style={props.style}>
+      <div className="GraphCardReset" style={props.style}>
+        <div className="GraphCard GraphCardSmall">
           <div className="GraphCardYears">{props.occupation}</div>
           <div className="GraphCardWhy">
             <span className="Cap">
