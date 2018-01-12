@@ -23,7 +23,12 @@ class GraphLayout extends Component {
   };
   render() {
     let leftColumnContents;
-    if (!this.props.state.pickPosition) {
+    if (!this.props.state.age) {
+      // add back to form button?
+      leftColumnContents = (
+        <Blurb>Hover to explore other people's choices.</Blurb>
+      );
+    } else if (!this.props.state.pickPosition) {
       leftColumnContents = (
         <Blurb>
           Plot where you find yourself; then hover to explore other people's
@@ -42,6 +47,10 @@ class GraphLayout extends Component {
             }}
           />
         </div>
+      );
+    } else {
+      leftColumnContents = (
+        <Blurb>Hover to explore other people's choices.</Blurb>
       );
     }
     const about = this.state.about ? (
