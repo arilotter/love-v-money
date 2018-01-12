@@ -55,11 +55,13 @@
   line-height: 22px;
   white-space: nowrap;
 }
+
 .GraphCardWhy {
   font: 18px "Miller";
   color: #3c3c3c;
   line-height: 24px;
 }
+
 @media screen and (max-width: 900px) {
   .GraphCard {
     margin: auto;

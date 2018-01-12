@@ -79,19 +79,17 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <AnimatedSwitch
-          atEnter={{ opacity: 0 }}
-          atLeave={{ opacity: 0 }}
-          atActive={{ opacity: 1 }}
-          className="switch-wrapper"
-        >
-          <Route exact path="/" component={Introduction} />
-          <Route path="/intro" component={Introduction} />
-          <Route path="/form" component={Form} />
-          <Route path="/graph/" component={GraphLayout} />
-        </AnimatedSwitch>
-      </React.Fragment>
+      <AnimatedSwitch
+        atEnter={{ opacity: 0 }}
+        atLeave={{ opacity: 0 }}
+        atActive={{ opacity: 1 }}
+        className="switch-wrapper"
+      >
+        <Route exact path="/" component={Introduction} />
+        <Route path="/intro" component={Introduction} />
+        <Route path="/form" component={Form} />
+        <Route path="/graph/" component={GraphLayout} />
+      </AnimatedSwitch>
     );
   }
 }
