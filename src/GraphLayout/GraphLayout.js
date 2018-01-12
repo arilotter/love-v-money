@@ -56,6 +56,14 @@ class GraphLayout extends Component {
     const about = this.state.about ? (
       <AboutOverlay onClosed={() => this.setState({ about: false })} />
     ) : null;
+    let people = this.props.state.people;
+    if (people && this.props.state.age) {
+      const me = {
+        ...this.props.state,
+        people: undefined
+      };
+      people = [...this.props.state.people, me];
+    }
     return (
       <React.Fragment>
         {about}
@@ -96,7 +104,7 @@ class GraphLayout extends Component {
                 })
               }
               pickPosition={this.props.state.pickPosition}
-              people={this.props.state.people}
+              people={people}
               gender={this.props.state.gender}
               setHighlighted={selectedPerson => {
                 this.setState({ selectedPerson });
