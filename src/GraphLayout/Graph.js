@@ -34,24 +34,25 @@ export default class Graph extends Component {
     const rect = e.target.getBoundingClientRect();
     this.x = e.pageX - rect.left;
     this.y = e.pageY - rect.top;
+    let people;
     if (this.props.me && this.props.me.pickPosition) {
-      const people = this.props.me
-        ? [...this.props.people, this.props.me]
-        : this.props.people;
-      const closest = (people || [])
-        .map(person => {
-          const [x, y] = person.pickPosition;
-          const dx = x - this.x / this.w;
-          const dy = y - (1 - this.y / this.w);
-          return { person, dist: dx * dx + dy * dy };
-        })
-        .sort((a, b) => a.dist - b.dist)
-        .shift();
-      if (closest && Math.sqrt(closest.dist) * this.w < CIRCLE_SIZE * 2) {
-        this.setState({ hover: closest.person });
-      } else {
-        this.setState({ hover: false });
-      }
+      people = [...this.props.people, this.props.me];
+    } else {
+      people = this.props.people;
+    }
+    const closest = (people || [])
+      .map(person => {
+        const [x, y] = person.pickPosition;
+        const dx = x - this.x / this.w;
+        const dy = y - (1 - this.y / this.w);
+        return { person, dist: dx * dx + dy * dy };
+      })
+      .sort((a, b) => a.dist - b.dist)
+      .shift();
+    if (closest && Math.sqrt(closest.dist) * this.w < CIRCLE_SIZE * 2) {
+      this.setState({ hover: closest.person });
+    } else {
+      this.setState({ hover: false });
     }
   };
 
@@ -68,14 +69,6 @@ export default class Graph extends Component {
   };
 
   onPaint(delta_time) {
-    if (this.props === undefined) return;
-    if (this.props.pickPosition) {
-      this.cursorAlpha = 1;
-    } else if (this.state.mouseIn && this.cursorAlpha < 1) {
-      this.cursorAlpha += delta_time / 200;
-    } else if (!this.state.mouseIn && this.cursorAlpha > 0) {
-      this.cursorAlpha -= delta_time / 200;
-    }
     const ctx = this.ctx;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     drawGrid(ctx, this.w);
@@ -104,6 +97,13 @@ export default class Graph extends Component {
       });
     }
     if (this.props.me) {
+      if (this.props.me.pickPosition) {
+        this.cursorAlpha = 1;
+      } else if (this.state.mouseIn && this.cursorAlpha < 1) {
+        this.cursorAlpha += delta_time / 200;
+      } else if (!this.state.mouseIn && this.cursorAlpha > 0) {
+        this.cursorAlpha -= delta_time / 200;
+      }
       ctx.strokeStyle = `rgba(250,58,56, ${this.cursorAlpha})`;
       const renderCursor = getRenderFunction(this.props.me.gender);
       if (!this.props.me.pickPosition) {
@@ -163,7 +163,7 @@ export default class Graph extends Component {
               ref={canvas => {
                 this.canvas = canvas;
               }}
-              onMouseMove={this.onMouseMove}
+              onMouseMove={this.onMouseMove.bind(this)}
               onClick={this.onClick}
             />
             <Transition
