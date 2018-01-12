@@ -8,7 +8,10 @@ export default function Card(props) {
         <div className="GraphCard GraphCardSmall" style={props.style}>
           <div className="GraphCardYears">{props.occupation}</div>
           <div className="GraphCardWhy">
-            <span className="Cap">{props.gender}</span>, {props.age} y/o
+            <span className="Cap">
+              {props.gender ? props.gender + "," : ""}
+            </span>{" "}
+            {props.age} y/o
           </div>
         </div>
       </div>
