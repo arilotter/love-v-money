@@ -26,7 +26,7 @@ class GraphLayout extends Component {
     if (!this.props.state.age) {
       // add back to form button?
       leftColumnContents = (
-        <Blurb>Hover to explore other people's choices.</Blurb>
+        <Blurb>Hover and click to explore other people's choices.</Blurb>
       );
     } else if (!this.props.state.pickPosition) {
       leftColumnContents = (
@@ -50,7 +50,7 @@ class GraphLayout extends Component {
       );
     } else {
       leftColumnContents = (
-        <Blurb>Hover to explore other people's choices.</Blurb>
+        <Blurb>Hover and click to explore other people's choices.</Blurb>
       );
     }
     const about = this.state.about ? (
