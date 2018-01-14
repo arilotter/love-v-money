@@ -78,19 +78,13 @@ export default class App extends Component {
           }}
         />
         <Route
-          path="/intro"
-          render={props => {
-            return <Introduction {...props} strangers={this.state.strangers} />;
-          }}
-        />
-        <Route
           path="/form"
           render={props => {
             return <Form {...props} submit={me => this.setState({ me })} />;
           }}
         />
         <Route
-          path="/graph/"
+          path="/graph"
           render={props => {
             return (
               <GraphLayout
