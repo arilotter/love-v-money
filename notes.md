@@ -1,14 +1,11 @@
 TODO
 
 * mini bios at different speeds?
-* mini bios all the way down the page
 * residual scroll on mini bios
 * plotting doesn't always work
-* should be able to hover own data points
 * fade in bg then animate text in
 * share form is cropped on mobile
 * share button does not work on mobile
-* show other data points while plotting ( .props.state not set?? )
 
 DONE
 
@@ -28,3 +25,6 @@ DONE
 * fix small cards going offscreen when data point is on the right
 * ease for hover
 * show self in plotting
+* mini bios all the way down the page
+* should be able to hover own data points
+* show other data points while plotting ( .props.state not set?? )

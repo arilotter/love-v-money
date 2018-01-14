@@ -7,6 +7,8 @@ import IconDiamondBlur from "../Icons/DiamondBlur.svg";
 import IconCircleBlur from "../Icons/CircleBlur.svg";
 import MiniCard from "../MiniCard";
 
+const CARD_Y = [1 / 6, 5 / 6, 7 / 6, 11 / 6, 13 / 6, 17 / 6, 19 / 6, 23 / 6];
+
 export default class Particles extends Component {
   state = {
     imagesLoaded: 0,
@@ -28,11 +30,18 @@ export default class Particles extends Component {
     const sideSize = (this.state.width - gapSize) / 2;
     this.state.particles.forEach(({ x, y, icon, speed }) => {
       let iconName = icon;
-      if (speed < 0.5) {
+      if (speed < 0.5 || this.state.width < 400) {
         iconName += "Blur";
       }
-      const scaledX =
-        x > 0.5 ? sideSize + gapSize + (x - 0.5) * 2 * sideSize : x * sideSize;
+      let scaledX;
+      if (this.state.width < 400) {
+        scaledX = x * (this.state.width - 32);
+      } else if (x > 0.5) {
+        scaledX = sideSize + gapSize + x * sideSize;
+      } else {
+        scaledX = x * sideSize;
+      }
+
       this.ctx.drawImage(
         this[iconName],
         scaledX,
@@ -44,11 +53,11 @@ export default class Particles extends Component {
 
   onResize = () => {
     const newState = {
-      width: window.outerWidth,
+      width: window.innerWidth,
       height: window.innerHeight
     };
-    if (window.outerWidth !== this.state.width) {
-      const numParticles = Math.round(window.outerWidth / 20);
+    if (window.innerWidth !== this.state.width) {
+      const numParticles = Math.round(window.innerWidth / 20);
       newState.particles = new Array(numParticles).fill(0).map(() => {
         let icon;
         const rand = Math.random();
@@ -59,18 +68,12 @@ export default class Particles extends Component {
           x: Math.random(),
           y: Math.random(),
           speed:
-            window.outerWidth > 900
-              ? Math.random() > 0.5
-                ? Math.random() / 3 + 0.1
-                : Math.random() + 0.5
-              : Math.random() / 2,
+            Math.random() > 0.5 ? Math.random() / 3 + 0.1 : Math.random() + 0.5,
           icon
         };
       });
     }
-    this.setState(newState);
-
-    this.doPaint();
+    this.setState(newState, () => this.doPaint());
   };
 
   componentDidMount() {
@@ -86,20 +89,23 @@ export default class Particles extends Component {
   }
 
   render() {
-    const cards = this.props.people
-      ? this.props.people.slice(0, 3).map(p => {
-          const [x, y] = p.pickPosition;
+    const gapSize = this.state.width > 900 ? 760 : 300;
+    const sideSize = (this.state.width - gapSize) / 2;
+    const shouldRenderCards = this.state.width > 600 && this.props.people;
+    const cards = shouldRenderCards
+      ? this.props.people.slice(0, 8).map((p, index) => {
+          // weight even to the left and odd to the right
+          // for a more even side distribution
+          const rand =
+            Math.random() * 0.6 + 0.2 + (index % 2 === 0 ? 0.2 : -0.2);
           const fixedX =
-            (window.innerWidth > 900
-              ? x > 0.5 ? 2 / 3 + 1 / 3 * (x - 0.5) : x * (2 / 3)
-              : x * 0.5) * this.state.width;
-          let fixedY = y;
-          if (y > 1 / 3 && y < 1 / 2) fixedY -= 1 / 3;
-          else if (y > 1 / 2 && y < 2 / 3) fixedY += 1 / 3;
-          fixedY *= this.state.height;
+            rand > 0.5
+              ? sideSize + gapSize + rand * 0.65 * sideSize
+              : rand * sideSize;
+          const fixedY = CARD_Y[index] * this.state.height;
           return (
             <MiniCard
-              key={Math.round(fixedX * y * 10000)}
+              key={Math.round(Math.random() * 10000)}
               age={p.age}
               gender={p.gender}
               occupation={p.occupation}
