@@ -2,10 +2,7 @@ TODO
 
 * mini bios at different speeds?
 * residual scroll on mini bios
-* plotting doesn't always work
 * fade in bg then animate text in
-* share form is cropped on mobile
-* share button does not work on mobile
 
 DONE
 
@@ -28,3 +25,6 @@ DONE
 * mini bios all the way down the page
 * should be able to hover own data points
 * show other data points while plotting ( .props.state not set?? )
+* plotting doesn't always work
+* share form is cropped on mobile
+* share button does not work on mobile
