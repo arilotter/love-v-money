@@ -68,6 +68,7 @@ export default function AboutOverlay(props) {
       <div className="AboutSponsorContainer">
         <div className="SponsorTitle">Museum of Contemporary Work</div>
         <div className="SponsorBy">is proudly supported by</div>
+        <div className="SponsorDivider" />
         <img alt="Street Capital Bank of Canada" src={SCBC} />
       </div>
       <span className="AboutOverlayFooterSpacer" />

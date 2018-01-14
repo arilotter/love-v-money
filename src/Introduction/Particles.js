@@ -14,7 +14,8 @@ export default class Particles extends Component {
     imagesLoaded: 0,
     particles: [],
     width: 0,
-    height: 0
+    height: 0,
+    cards: []
   };
   imageLoaded = () => {
     const newImageCount = this.state.imagesLoaded + 1;
@@ -52,13 +53,13 @@ export default class Particles extends Component {
   };
 
   onResize = () => {
-    const newState = {
+    let state = {
       width: window.innerWidth,
       height: window.innerHeight
     };
-    if (window.innerWidth !== this.state.width) {
-      const numParticles = Math.round(window.innerWidth / 20);
-      newState.particles = new Array(numParticles).fill(0).map(() => {
+    if (state.width !== this.state.width) {
+      const numParticles = Math.round(state.width / 20);
+      const particles = new Array(numParticles).fill(0).map(() => {
         let icon;
         const rand = Math.random();
         if (rand > 2 / 3) icon = "iconCross";
@@ -72,8 +73,22 @@ export default class Particles extends Component {
           icon
         };
       });
+      const gapSize = state.width > 900 ? 760 : 300;
+      const sideSize = (state.width - gapSize) / 2;
+      const cards = CARD_Y.map((y, index) => {
+        // weight even to the left and odd to the right
+        // for a more even side distribution
+        const rand = Math.random() * 0.6 + 0.2 + (index % 2 === 0 ? 0.2 : -0.2);
+        const fixedX =
+          rand > 0.5
+            ? sideSize + gapSize + rand / 2 * (sideSize - 200)
+            : rand * sideSize;
+        const fixedY = y * state.height;
+        return [fixedX, fixedY];
+      });
+      state = { ...state, cards, particles };
     }
-    this.setState(newState, () => this.doPaint());
+    this.setState(state, () => this.doPaint());
   };
 
   componentDidMount() {
@@ -89,20 +104,10 @@ export default class Particles extends Component {
   }
 
   render() {
-    const gapSize = this.state.width > 900 ? 760 : 300;
-    const sideSize = (this.state.width - gapSize) / 2;
     const shouldRenderCards = this.state.width > 600 && this.props.people;
     const cards = shouldRenderCards
-      ? this.props.people.slice(0, 8).map((p, index) => {
-          // weight even to the left and odd to the right
-          // for a more even side distribution
-          const rand =
-            Math.random() * 0.6 + 0.2 + (index % 2 === 0 ? 0.2 : -0.2);
-          const fixedX =
-            rand > 0.5
-              ? sideSize + gapSize + rand * 0.65 * sideSize
-              : rand * sideSize;
-          const fixedY = CARD_Y[index] * this.state.height;
+      ? this.props.people.slice(0, CARD_Y.length).map((p, index) => {
+          const [x, y] = this.state.cards[index];
           return (
             <MiniCard
               key={Math.round(Math.random() * 10000)}
@@ -111,8 +116,8 @@ export default class Particles extends Component {
               occupation={p.occupation}
               style={{
                 position: "absolute",
-                left: fixedX + "px",
-                top: fixedY + "px"
+                left: x + "px",
+                top: y + "px"
               }}
             />
           );
