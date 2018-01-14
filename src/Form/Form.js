@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { gs } from "../react-global-state";
 import TripleLayout from "../TripleLayout";
 import NaturalInput from "./NaturalInput";
 import "./Form.css";
@@ -37,7 +36,7 @@ class Form extends Component {
   };
 
   submit = () => {
-    this.props.setState({ me: this.state.data });
+    this.props.submit(this.state.data);
     this.props.history.push("/graph");
   };
 
@@ -94,7 +93,7 @@ class Form extends Component {
       />
     );
     return (
-      <div>
+      <div className="Form">
         <TripleLayout
           fancy
           icons={["heart", "money", "questionMark"]}
@@ -115,4 +114,4 @@ class Form extends Component {
   }
 }
 
-export default gs(Form);
+export default Form;

@@ -1,15 +1,14 @@
 import React from "react";
-import { gs } from "../react-global-state";
 import TripleLayout from "../TripleLayout";
 import Highlight from "../Highlight";
 import Particles from "./Particles";
 import "./Introduction.css";
 
-function Introduction({ history, state }) {
+export default function Introduction({ history, strangers }) {
   return (
     <React.Fragment>
       <div className="Introduction">
-        <Particles people={state.strangers} />
+        <Particles people={strangers} />
         <TripleLayout icons={["heart"]} className="IntroductionSection">
           some people<br />pursue a <Highlight>passion</Highlight>
         </TripleLayout>
@@ -36,4 +35,3 @@ function Introduction({ history, state }) {
     </React.Fragment>
   );
 }
-export default gs(Introduction);

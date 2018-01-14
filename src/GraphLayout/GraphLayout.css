@@ -125,8 +125,9 @@
   }
 
   .GraphLayoutBlurb {
-    padding: 0;
-    font-size: 24px;
+    padding: 4px;
+    font-size: 20px;
+    line-height: 20px;
     margin: auto;
     max-width: initial;
   }

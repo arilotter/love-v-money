@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import { AnimatedSwitch } from "react-router-transition";
-import { gs } from "./react-global-state";
 import Introduction from "./Introduction";
 import Form from "./Form";
 import GraphLayout from "./GraphLayout";
@@ -22,7 +21,11 @@ function getGUID() {
     return window.localStorage.guid;
   }
 }
-class App extends Component {
+export default class App extends Component {
+  state = {
+    me: null,
+    strangers: null
+  };
   componentWillMount() {
     // update info about other people and ourselves
     fetch("/api/people", {
@@ -36,19 +39,19 @@ class App extends Component {
       })
     })
       .then(res => res.json())
-      .then(this.props.setState);
+      .then(json => this.setState(json));
   }
   componentWillUpdate(nextProps, nextState) {
-    const me = this.props.state.me;
+    const me = this.state.me;
     if (
       me &&
-      (me.pickPosition !== nextProps.state.me.pickPosition ||
-        me.why !== nextProps.state.me.why)
+      (me.pickPosition !== nextState.me.pickPosition ||
+        me.why !== nextState.me.why)
     ) {
       fetch("/api/people", {
         method: "put",
         body: JSON.stringify({
-          ...nextProps.state.me,
+          ...nextState.me,
           guid: getGUID()
         }),
         headers: {
@@ -67,13 +70,44 @@ class App extends Component {
         atActive={{ opacity: 1 }}
         className="switch-wrapper"
       >
-        <Route exact path="/" component={Introduction} />
-        <Route path="/intro" component={Introduction} />
-        <Route path="/form" component={Form} />
-        <Route path="/graph/" component={GraphLayout} />
+        <Route
+          exact
+          path="/"
+          render={props => {
+            return <Introduction {...props} strangers={this.state.strangers} />;
+          }}
+        />
+        <Route
+          path="/intro"
+          render={props => {
+            return <Introduction {...props} strangers={this.state.strangers} />;
+          }}
+        />
+        <Route
+          path="/form"
+          render={props => {
+            return <Form {...props} submit={me => this.setState({ me })} />;
+          }}
+        />
+        <Route
+          path="/graph/"
+          render={props => {
+            return (
+              <GraphLayout
+                {...props}
+                me={this.state.me}
+                strangers={this.state.strangers}
+                setWhy={why => this.setState({ me: { ...this.state.me, why } })}
+                setPosition={(x, y) =>
+                  this.setState({
+                    me: { ...this.state.me, pickPosition: [x, y] }
+                  })
+                }
+              />
+            );
+          }}
+        />
       </AnimatedSwitch>
     );
   }
 }
-
-export default gs(App);

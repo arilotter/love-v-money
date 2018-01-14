@@ -17,6 +17,8 @@ export default class Graph extends Component {
     hover: false
   };
   onClick = e => {
+    console.log("clicc");
+    console.log(this.props);
     const rect = e.target.getBoundingClientRect();
     if (this.props.me && !this.props.me.pickPosition) {
       const money = (e.pageX - rect.left) / this.w;
@@ -73,9 +75,10 @@ export default class Graph extends Component {
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     drawGrid(ctx, this.w);
 
-    const people = this.props.me
-      ? [...this.props.people, { ...this.props.me, me: true }]
-      : this.props.people;
+    const people =
+      this.props.me && this.props.me.pickPosition
+        ? [...this.props.people, { ...this.props.me, me: true }]
+        : this.props.people;
     if (people) {
       people.forEach(({ pickPosition, gender, me }) => {
         if (me) ctx.strokeStyle = "#fa3a38";

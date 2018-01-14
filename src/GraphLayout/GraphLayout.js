@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { gs } from "../react-global-state";
 import Icons from "../Icons";
 import Button from "../Button";
 import Graph from "./Graph";
@@ -15,27 +14,31 @@ function Blurb(props) {
   return <div className="GraphLayoutBlurb">{props.children}</div>;
 }
 
-class GraphLayout extends Component {
+export default class GraphLayout extends Component {
   state = {
     elaborating: false,
     about: false,
     selectedPerson: false
   };
   render() {
+    const defaultBlurb = (
+      <Blurb>
+        {window.innerWidth > 600 ? "Hover" : "Click"} to explore other people's
+        choices.
+      </Blurb>
+    );
     let leftColumnContents;
-    if (!this.props.state.me) {
+    if (!this.props.me) {
       // add back to form button?
-      leftColumnContents = (
-        <Blurb>Hover and click to explore other people's choices.</Blurb>
-      );
-    } else if (!this.props.state.me.pickPosition) {
+      leftColumnContents = defaultBlurb;
+    } else if (!this.props.me.pickPosition) {
       leftColumnContents = (
         <Blurb>
           Plot where you find yourself; then hover to explore other people's
           choices.
         </Blurb>
       );
-    } else if (!this.props.state.me.why) {
+    } else if (!this.props.me.why) {
       leftColumnContents = (
         <div>
           <Blurb>Tell us a few words about why you do what you do.</Blurb>
@@ -49,12 +52,7 @@ class GraphLayout extends Component {
         </div>
       );
     } else {
-      leftColumnContents = (
-        <Blurb>
-          {window.innerWidth > 600 ? "Hover" : "Click"} to explore other
-          people's choices.
-        </Blurb>
-      );
+      leftColumnContents = defaultBlurb;
     }
     const about = this.state.about ? (
       <AboutOverlay onClosed={() => this.setState({ about: false })} />
@@ -66,7 +64,7 @@ class GraphLayout extends Component {
           open={this.state.elaborating}
           onClose={() => this.setState({ elaborating: false })}
           onDone={why => {
-            this.props.setState({ why });
+            this.props.setWhy(why);
             this.setState({ elaborating: false });
           }}
         />
@@ -93,13 +91,9 @@ class GraphLayout extends Component {
           </div>
           <div className="GraphLayoutRightColumn">
             <Graph
-              onPick={(money, love) =>
-                this.props.setState({
-                  me: { ...this.props.state.me, pickPosition: [money, love] }
-                })
-              }
-              me={this.props.state.me}
-              people={this.props.state.strangers}
+              onPick={this.props.setPosition}
+              me={this.props.me}
+              people={this.props.strangers}
               setHighlighted={selectedPerson => {
                 this.setState({ selectedPerson });
               }}
@@ -139,5 +133,3 @@ class GraphLayout extends Component {
     );
   }
 }
-
-export default gs(GraphLayout);

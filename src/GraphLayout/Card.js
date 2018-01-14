@@ -26,7 +26,7 @@ export default function Card(props) {
           I've been {a(props.occupation)} {props.occupation} for {props.years}{" "}
           years
         </div>
-        <div className="GraphCardWhy">{props.why}</div>
+        <div className="GraphCardWhy">{props.why || ""}</div>
       </div>
     );
   }
