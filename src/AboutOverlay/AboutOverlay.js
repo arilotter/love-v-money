@@ -1,4 +1,5 @@
 import React from "react";
+import SCBC from "./SCBC.svg";
 import Highlight from "../Highlight";
 import Icons from "../Icons";
 import "./AboutOverlay.css";
@@ -62,9 +63,14 @@ export default function AboutOverlay(props) {
         <p>
           For more information contact:{" "}
           <Highlight>sean@hazellcompany.com</Highlight>
-          <span className="AboutOverlayFooterSpacer" />
         </p>
       </div>
+      <div className="AboutSponsorContainer">
+        <div className="SponsorTitle">Museum of Contemporary Work</div>
+        <div className="SponsorBy">is proudly supported by</div>
+        <img alt="Street Capital Bank of Canada" src={SCBC} />
+      </div>
+      <span className="AboutOverlayFooterSpacer" />
     </div>
   );
 }
