@@ -73,21 +73,23 @@ export default class Particles extends Component {
           icon
         };
       });
-      const gapSize = state.width > 900 ? 760 : 300;
-      const sideSize = (state.width - gapSize) / 2;
-      const cards = CARD_Y.map((y, index) => {
-        // weight even to the left and odd to the right
-        // for a more even side distribution
-        const rand = Math.random() * 0.6 + 0.2 + (index % 2 === 0 ? 0.2 : -0.2);
-        const fixedX =
-          rand > 0.5
-            ? sideSize + gapSize + rand / 2 * (sideSize - 200)
-            : rand * sideSize;
-        const fixedY = y * state.height;
-        return [fixedX, fixedY];
-      });
-      state = { ...state, cards, particles };
+      state = { ...state, particles };
     }
+    const gapSize = state.width > 900 ? 760 : 300;
+    const sideSize = (state.width - gapSize) / 2;
+    const cards = CARD_Y.map((y, index) => {
+      // weight even to the left and odd to the right
+      // for a more even side distribution
+      let fixedX;
+      if (index % 2 === 0) {
+        fixedX = Math.random() * sideSize;
+      } else {
+        fixedX = sideSize + gapSize + Math.random() * sideSize;
+      }
+      const fixedY = y * state.height;
+      return [fixedX, fixedY];
+    });
+    state = { ...state, cards };
     this.setState(state, () => this.doPaint());
   };
 
@@ -108,15 +110,22 @@ export default class Particles extends Component {
     const cards = shouldRenderCards
       ? this.props.people.slice(0, CARD_Y.length).map((p, index) => {
           const [x, y] = this.state.cards[index];
+          let left, right;
+          if (x > this.state.width / 2) {
+            right = this.state.width - x + "px";
+          } else {
+            left = x + "px";
+          }
           return (
             <MiniCard
-              key={Math.round(Math.random() * 10000)}
+              key={Math.round(Math.random() * 10000000)}
               age={p.age}
               gender={p.gender}
               occupation={p.occupation}
               style={{
                 position: "absolute",
-                left: x + "px",
+                left,
+                right,
                 top: y + "px"
               }}
             />
