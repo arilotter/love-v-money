@@ -28,6 +28,10 @@ body {
   font-family: "Franklin Gothic";
 }
 
+a {
+  color: #fa3a38;
+}
+
 .switch-wrapper {
   position: relative;
 }
