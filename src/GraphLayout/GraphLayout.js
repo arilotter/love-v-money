@@ -109,20 +109,18 @@ export default class GraphLayout extends Component {
             About this project
           </span>
           <a
-            href={
-              "https://twitter.com/intent/tweet?text=" +
-              encodeURIComponent(SOCIAL_TEXT)
-            }
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+              SOCIAL_TEXT
+            )}`}
             target="_blank"
             rel="noopener"
           >
             <Icons icon="twitter" className="GraphLayoutAboutIcon" />
           </a>
           <a
-            href={
-              "https://www.facebook.com/share.php?u=" +
-              encodeURIComponent(SOCIAL_TEXT)
-            }
+            href={`https://www.facebook.com/share.php?u=${encodeURIComponent(
+              "https://lovevmoney.com/"
+            )}`}
             target="_blank"
             rel="noopener"
           >
